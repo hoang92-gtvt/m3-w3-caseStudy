@@ -6,6 +6,13 @@
 </head>
 <body>
 
+
+
+
+
+</body>
+</html>
+
 create DATABASE LibraryManager;
 use LibraryManager;
 
@@ -16,30 +23,73 @@ birthday datetime not null,
 email varchar(100) not null unique,
 phone varchar(15) not null unique ,
 urlOfImage varchar(200)
+
 );
 
 drop table users;
 
 
 create table acounts(
-id int primary key auto_increment,
+userID int not null primary key ,
 userName varchar(100) not null unique ,
-passWord varchar(150) not null unique
-
+passWord varchar(150) not null unique,
+foreign key (userID) references users(id)
 );
 
 drop table acounts;
 
-create table user_acount(
-userId int not null ,
-acountId int not null,
-foreign key (userId) references users(id) ,
-foreign key (acountId) references acounts(id) ,
-PRIMARY KEY (userId,acountId)
+# create table user_acount(
+#     userId int not null ,
+#     acountId int not null,
+#     foreign key (userId) references users(id) ,
+#     foreign key (acountId) references acounts(id) ,
+#     PRIMARY KEY (userId,acountId)
+# );
+# drop table user_acount;
+
+create table book(
+id int primary key  auto_increment,
+name varchar(50) not null ,
+description varchar(200) ,
+status varchar(30) ,
+nxb_id int not null,
+foreign key (nxb_id) references NXB(id)
+
 );
-drop table user_acount;
 
+create table NXB(
+id int primary key auto_increment,
+name varchar(100) not null unique
 
+);
+create table category(
+id int primary key auto_increment,
+name varchar(100) not null unique
+);
 
-</body>
-</html>
+create table book_category(
+book_id int not null,
+category_id int not null,
+foreign key (book_id) references book(id),
+foreign key (category_id) references category(id),
+
+primary key (book_id, category_id)
+
+);
+
+create table customers(
+id int primary key auto_increment,
+name varchar(50) not null,
+identity varchar(10) not null unique,
+class varchar(20) not null,
+address varchar(100) not null,
+birthday datetime
+
+);
+
+create table PhieuMuon(
+id int primary key  auto_increment,
+identity varchar(20) not null unique,
+date datetime,
+
+);
