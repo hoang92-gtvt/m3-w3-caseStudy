@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+create DATABASE LibraryManager;
+use LibraryManager;
+
+create table users(
+id int primary key  auto_increment,
+name varchar(100) not null,
+birthday datetime not null,
+email varchar(100) not null unique,
+phone varchar(15) not null unique ,
+urlOfImage varchar(200)
+);
+
+drop table users;
+
+
+create table acounts(
+id int primary key auto_increment,
+userName varchar(100) not null unique ,
+passWord varchar(150) not null unique
+
+);
+
+drop table acounts;
+
+create table user_acount(
+userId int not null ,
+acountId int not null,
+foreign key (userId) references users(id) ,
+foreign key (acountId) references acounts(id) ,
+PRIMARY KEY (userId,acountId)
+);
+drop table user_acount;
+
+
+
+</body>
+</html>
