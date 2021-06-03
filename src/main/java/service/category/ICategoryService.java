@@ -1,19 +1,21 @@
 package service.category;
 
 import model.Book;
+import model.Category;
 import service.IService;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface ICategoryService extends IService<Book> {
+public interface ICategoryService extends IService<Category> {
     @Override
-    ArrayList<Book> findAll();
+    ArrayList<Category> findAll() throws SQLException;
 
     @Override
-    void creat(Book newE);
+    void creat(Category newE);
 
     @Override
-    void edit(int index, Book newE);
+    void edit(int index, Category newE);
 
     @Override
     void delete(int index);

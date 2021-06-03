@@ -1,4 +1,4 @@
-package service.category;
+package service.statusbook;
 
 public class StatusBookService {
 }
