@@ -11,20 +11,31 @@ import java.util.List;
 public class CategoryService implements ICategoryService{
 
     public static final String CALL_GET_CATEGORY_BY_ID_BOOK = "call getCategoryByIdBook(?)";
+    public static final String SELECT_ALLCATEGORY = "select * from category;";
     Connection connection = ConnectionJDBC.getConnect();
 
     @Override
-    public ArrayList<CategoryService> findAll() {
-        return null;
+    public ArrayList<Category> findAll() throws SQLException {
+        ArrayList<Category> categories = new ArrayList<>();
+        PreparedStatement statement = connection.prepareStatement(SELECT_ALLCATEGORY);
+        ResultSet result = statement.executeQuery();
+        while (result.next()){
+            int id = result.getInt(1);
+            String name = result.getString(2);
+            Category category= new Category(id, name);
+            categories.add(category);
+        }
+
+        return categories;
     }
 
     @Override
-    public void creat(CategoryService newE) {
+    public void creat(Category newE) {
 
     }
 
     @Override
-    public void edit(int index, CategoryService newE) {
+    public void edit(int index, Category newE) {
 
     }
 

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class NXBService implements INXBService{
-    public static final String SELECT_ALL_NXB = "select nxb.name from nxb;";
+    public static final String SELECT_ALL_NXB = "select * from nxb;";
     Connection connection = ConnectionJDBC.getConnect();
 
     @Override
@@ -22,8 +22,9 @@ public class NXBService implements INXBService{
         ResultSet result =statement.executeQuery();
 
         while(result.next()){
-            String nxb = result.getString(1);
-            NXB nxbObject = new NXB(nxb);
+            int id = result.getInt(1);
+            String nxb = result.getString(2);
+            NXB nxbObject = new NXB(id, nxb);
             NXBList.add(nxbObject);
         }
         return NXBList;
