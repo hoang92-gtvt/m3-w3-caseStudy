@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class StatusBookService implements IStatusBookService{
-    public static final String AllSTATUSBOOK = "select sb.name from statusBook as sb;";
+    public static final String AllSTATUSBOOK = "select * from statusBook as sb;";
     Connection connection = ConnectionJDBC.getConnect();
     @Override
     public ArrayList<StatusBook> findAll() throws SQLException {
@@ -21,8 +21,9 @@ public class StatusBookService implements IStatusBookService{
         ResultSet result =statement.executeQuery();
 
         while(result.next()){
-            String statusBook = result.getString(1);
-            StatusBook statusBookObject = new StatusBook(statusBook);
+            int id = result.getInt(1);
+            String statusBook = result.getString(2);
+            StatusBook statusBookObject = new StatusBook(id,statusBook);
             statusBooks.add(statusBookObject);
         }
 

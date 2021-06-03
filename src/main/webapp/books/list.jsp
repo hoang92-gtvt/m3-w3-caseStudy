@@ -51,7 +51,7 @@
 
 </table>
 
-<a href="/book?action=creat">Thêm mới sách</a>
+<a href="/book?action=create">Thêm mới sách</a>
 
 
 <!-- On tables -->

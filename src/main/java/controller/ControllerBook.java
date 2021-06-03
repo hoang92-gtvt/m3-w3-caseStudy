@@ -35,7 +35,7 @@ public class ControllerBook extends HttpServlet {
             }
             switch (action) {
 
-                case "creat":
+                case "create":
                     showFormCreate(request, response);
                     break;
 //
@@ -59,7 +59,7 @@ public class ControllerBook extends HttpServlet {
 
 
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/books.formCreate.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/books/formCreate.jsp");
 
 
         dispatcher.forward(request,response);

@@ -1,7 +1,6 @@
 package service.category;
 
 import model.Book;
-<<<<<<< HEAD
 import model.Category;
 import service.connection.ConnectionJDBC;
 
@@ -12,53 +11,31 @@ import java.util.List;
 public class CategoryService implements ICategoryService{
 
     public static final String CALL_GET_CATEGORY_BY_ID_BOOK = "call getCategoryByIdBook(?)";
+    public static final String SELECT_ALLCATEGORY = "select * from category;";
     Connection connection = ConnectionJDBC.getConnect();
 
     @Override
-    public ArrayList<CategoryService> findAll() {
-=======
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-public class CategoryService implements ICategoryService {
-    private static final  String jdbcURL = "";
-    private static final  String jdbcUserName = "";
-    private static final  String jdbcPassword = "";
-    protected  static  Connection getConnection(){
-        Connection connection  = null;
-        try {
-            Class.forName("com.mysql.cf.jdbc.Drive");
-            connection = DriverManager.getConnection(jdbcURL,jdbcUserName,jdbcPassword);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    public ArrayList<Category> findAll() throws SQLException {
+        ArrayList<Category> categories = new ArrayList<>();
+        PreparedStatement statement = connection.prepareStatement(SELECT_ALLCATEGORY);
+        ResultSet result = statement.executeQuery();
+        while (result.next()){
+            int id = result.getInt(1);
+            String name = result.getString(2);
+            Category category= new Category(id, name);
+            categories.add(category);
         }
-    }
-    @Override
-    public ArrayList<Book> findAll() {
->>>>>>> origin/toan
-        return null;
+
+        return categories;
     }
 
     @Override
-<<<<<<< HEAD
-    public void creat(CategoryService newE) {
-=======
-    public void creat(Book newE) {
->>>>>>> origin/toan
+    public void creat(Category newE) {
 
     }
 
     @Override
-<<<<<<< HEAD
-    public void edit(int index, CategoryService newE) {
-=======
-    public void edit(int index, Book newE) {
->>>>>>> origin/toan
+    public void edit(int index, Category newE) {
 
     }
 
@@ -66,7 +43,7 @@ public class CategoryService implements ICategoryService {
     public void delete(int index) {
 
     }
-<<<<<<< HEAD
+
 
     @Override
     public List<Category> findCategoryByID(int idOfBook) throws SQLException {
@@ -89,6 +66,4 @@ public class CategoryService implements ICategoryService {
         System.out.println(categories);
         return categories;
     }
-=======
->>>>>>> origin/toan
 }
