@@ -1,0 +1,133 @@
+           birthday datetime not null,
+                      email varchar(100) not null unique,
+                      phone varchar(15) not null unique ,
+                      urlOfImage varchar(200),
+
+                      userName varchar(100) not null unique,
+                      pass varchar(50) not null unique,
+
+                      role_id int not null,
+                      foreign key (role_id) references role(id)
+
+);
+drop table users;
+
+alter table users
+    add column userName varchar(100) not null unique,
+    add column pass varchar(50) not null unique;
+
+drop table users;
+
+create table role(
+                     id int primary key auto_increment,
+                     name varchar(30) not null
+
+);
+
+
+create table book(
+                     id int primary key  auto_increment,
+                     name varchar(50) not null ,
+                     description varchar(200) ,
+                     status_id int not null,
+                     nxb_id int not null,
+                     foreign key (nxb_id) references NXB(id),
+                     foreign key (status_id) references statusBook(id)
+
+);
+drop table book;
+
+create table statusBook(
+                           id int primary key,
+                           name varchar(50)
+);
+
+create table NXB(
+                    id int primary key auto_increment,
+                    name varchar(100) not null unique
+
+);
+create table category(
+                         id int primary key auto_increment,
+                         name varchar(100) not null unique
+);
+
+create table book_category(
+                              book_id int not null,
+                              category_id int not null,
+                              foreign key (book_id) references book(id),
+                              foreign key (category_id) references category(id),
+
+                              primary key (book_id, category_id)
+
+);
+# drop table book_category;
+
+
+
+create table PhieuMuon(
+                          id int primary key  auto_increment,
+                          identity varchar(20) not null unique,
+                          date datetime,
+                          duedate date,
+                          user_id int not null,
+                          foreign key (user_id ) references users(id),
+                          statusPM_id int not null,
+                          foreign key (statusPM_id) references statusPM(id)
+
+);
+drop table PhieuMuon;
+
+# alter table PhieuMuon
+# add column duedate date  ;
+
+create table statusPM(
+                         id int primary key ,
+                         name varchar(50)
+);
+
+create table DetailPM(
+                         id int primary key auto_increment,
+                         PM_identity int not null unique ,
+                         foreign key (PM_identity) references PhieuMuon(id),
+                         book_id int not null unique,
+                         foreign key (book_id) references book(id),
+                         amount int not null
+
+);
+# drop table DetailPM;
+
+insert into role(id, name) VALUES (1,'admin'),(2,'librarian'),(3,'user');
+
+create database sqq;
+use sqq;
+create table role(
+                     id int primary key auto_increment,
+                     name varchar(30) not null
+
+);
+INSERT INTO users( name, birthday, email, phone, urlOfImage, userName, pass, role_id) values ('sá','2021-08-18','sâff','qqsqs','vvxvx','4775643','dsadsc',1),('dứd','2021-09-02','fvasfa','dqqđ','sadffv','csacac','ầggag',3);
+DELIMITER $$
+
+CREATE PROCEDURE get_sign_in(IN un VARCHAR(100),IN p VARCHAR(50))
+
+BEGIN
+
+    select * FROM users where userName = un and pass = p;
+
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE update_password(IN num INT,IN newpass VARCHAR(50))
+
+BEGIN
+
+    UPDATE users
+    SET pass = newpass WHERE id=num;
+
+END$$
+
+DELIMITER ;
