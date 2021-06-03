@@ -1,6 +1,9 @@
 package controller;
 
 import model.Book;
+import model.Category;
+import model.NXB;
+import model.StatusBook;
 import service.book.BookService;
 import service.book.IBookService;
 import service.category.CategoryService;
@@ -54,13 +57,16 @@ public class ControllerBook extends HttpServlet {
         }
     }
 
-    private void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
+    private void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        ArrayList<StatusBook> statusBooks = statusBookService.findAll();
+        ArrayList<NXB> nxbList = nxbService .findAll();
+        ArrayList<Category> categories = categoryService.findAll();
 
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/books/formCreate.jsp");
-
+        request.setAttribute("statusBooks", statusBooks);
+        request.setAttribute("nxbList", nxbList);
+        request.setAttribute("categories", categories);
 
         dispatcher.forward(request,response);
 

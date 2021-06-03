@@ -16,48 +16,84 @@
 </head>
 <body>
 <h1>FORM CREAT NEW BOOK</h1>
-<form class="row g-3" method="post">
-    <div class="col-auto">
-        <label  class="visually-hidden">Tên Sách</label>
-        <input type="text" class="form-control-plaintext" name="name" value="Tên cuốn sách">
+<form class="mb-3" method="post">
+    <div class="mb-3">
+        <label  class="form-label">Tên sách</label>
+        <input type="text" class="form-control" name="name" placeholder="Sách ABC">
     </div>
-    <br>
-
-    <div class="col-auto">
-        <label  class="visually-hidden">Mô tả chung</label>
-        <input type="text" class="form-control-plaintext" name="description" value="Giới thiệu chung về sách">
-    </div>
-    <br>
-
-    <div class="col-auto">
-        <label  class="visually-hidden">Tình trạng sách</label>
-        <input type="text" class="form-control-plaintext" name="status_id" value="Lựa chọn tình trạng sách">
-    </div>
-    <br>
-
-    <div class="col-auto">
-        <label  class="visually-hidden">Nhà xuất bản</label>
-        <input type="text" class="form-control-plaintext" name="status_id" value="Nhập tình trạn sách theo id">
-    </div>
-    <br>
 
 
-    <div class="col-auto">
-        <label  class="visually-hidden">Tên Sách</label>
-        <input type="text" class="form-control-plaintext" name="name" value="email@example.com">
+    <div class="mb-3">
+        <label  class="form-label">Mổ tả</label>
+        <input type="text" class="form-control" name="description" placeholder="Hướng dẫn ....">
     </div>
-    <br>
 
-    <div class="col-auto">
-        <label class="visually-hidden">Password</label>
-        <input type="password" class="form-control" name="discription" placeholder="Password">
+   <div class="mb-3">
+    <label  class="form-label">Tình trạng sách</label>
+       <br>
+
+       <c:forEach items="${statusBooks}" var="status">
+       <input  type="radio" name="status" value="${status.id}">
+       <label>${status.name}</label>
+       <br>
+        </c:forEach>
+
+
+   </div>
+
+
+    <div class="mb-3">
+        <label  class="form-label">Nhà xuất bản sách </label>
+        <br>
+
+        <c:forEach items="${nxbList}" var="nxb">
+            <input  type="radio" name="nxb" value="${nxb.id}">
+            <label>${nxb.name}</label>
+            <br>
+        </c:forEach>
+
+
+
     </div>
-    <br>
-    <div class="col-auto">
-        <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+
+
+    <div class="mb-3">
+        <label  class="form-label">Đường dẫn link ảnh</label>
+        <input type="text" class="form-control" name="urlOfImage" placeholder="....*png">
     </div>
+
+
+    <div class="mb-3">
+        <label  class="form-label">Nhà xuất bản sách </label>
+        <br>
+
+        <c:forEach items="${categories}" var="category">
+
+            <input class="form-check-input" type="checkbox" name="category" value="${category.id}">
+            <label class="form-check-label" > ${category.name} </label>
+            <br>
+        </c:forEach>
+
+
+
+    </div>
+
+
+
+<%--    <div class="mb-3">--%>
+<%--        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>--%>
+<%--        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>--%>
+<%--    </div>--%>
+    <button type="submit">Create New Book</button>
 </form>
+
 
 
 </body>
 </html>
+<style>
+    .form-label {
+        font-weight: bolder;
+        font-size: 110% ;
+    }
+</style>
