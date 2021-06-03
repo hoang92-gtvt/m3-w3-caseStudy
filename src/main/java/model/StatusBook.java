@@ -2,6 +2,7 @@ package model;
 
 public class StatusBook {
     private int id;
+<<<<<<< HEAD
     private String name;
 
     public StatusBook(int id, String name) {
@@ -16,6 +17,18 @@ public class StatusBook {
     public StatusBook() {
     }
 
+=======
+    private  String name;
+
+    public StatusBook() {
+    }
+
+    public StatusBook(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+>>>>>>> origin/toan
     public int getId() {
         return id;
     }
