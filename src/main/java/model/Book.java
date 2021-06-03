@@ -7,9 +7,19 @@ public class Book {
     private String name;
     private String description;
     private NXB nxb;
+    private StatusBook statusBook;
+    private String urlOfImage;
     ArrayList<Category> categories;
 
     public Book() {
+    }
+
+    public StatusBook getStatusBook() {
+        return statusBook;
+    }
+
+    public void setStatusBook(StatusBook statusBook) {
+        this.statusBook = statusBook;
     }
 
     public Book(int id, String name, String description) {
@@ -23,6 +33,16 @@ public class Book {
         this.name = name;
         this.description = description;
         this.nxb = nxb;
+        this.categories = categories;
+    }
+
+    public Book(int id, String name, String description, NXB nxb, StatusBook statusBook,  ArrayList<Category> categories) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.nxb = nxb;
+        this.statusBook = statusBook;
+        this.urlOfImage = urlOfImage;
         this.categories = categories;
     }
 
@@ -40,6 +60,14 @@ public class Book {
 
     public void setCategories(ArrayList<Category> categories) {
         this.categories = categories;
+    }
+
+    public String getUrlOfImage() {
+        return urlOfImage;
+    }
+
+    public void setUrlOfImage(String urlOfImage) {
+        this.urlOfImage = urlOfImage;
     }
 
     public int getId() {

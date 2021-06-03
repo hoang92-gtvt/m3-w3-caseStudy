@@ -48,12 +48,12 @@ public class ControllerBook extends HttpServlet {
         }
     }
     private void showAllBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/books/list.jsp");
 
         ArrayList<Book> bookList = new ArrayList<>();
 
         bookList = bookService.findAll();
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/books/list.jsp");
         request.setAttribute("bookList", bookList);
 
         dispatcher.forward(request, response);

@@ -2,6 +2,8 @@ package service.book;
 
 import model.Book;
 import model.Category;
+import model.NXB;
+import model.StatusBook;
 import service.category.CategoryService;
 import service.category.ICategoryService;
 import service.connection.ConnectionJDBC;
@@ -18,7 +20,7 @@ public class BookService implements IBookService {
     ICategoryService categoryService = new CategoryService();
 
 
-    public static final String AllBOOK = "select * from book";
+    public static final String CALLGETALLBOOK= "call getAllBook()";
     Connection connection = ConnectionJDBC.getConnect();
 
 
@@ -48,22 +50,28 @@ public class BookService implements IBookService {
     public ArrayList<Book> findAll() throws SQLException {
         ArrayList<Book> bookList = new ArrayList<>();
 
-//        PreparedStatement statement =connection.prepareStatement(AllBOOK);
-//
-//        ResultSet result = statement.executeQuery();
+        CallableStatement statement =connection.prepareCall(CALLGETALLBOOK);
 
-////        while(result.next()){
-////            int idBook = result.getInt(1);
-////            String nameBook = result.getString("name");
-////            int price = result.getInt("price");
-////
-////            ArrayList<Category> categories = (ArrayList<Category>) categoryService.findCategoryByID(idBook);
-////
-////            Book book = new Book(idBook,nameBook, price,categories );
-//
-//            bookList.add(book);
+        ResultSet result = statement.executeQuery();
 
-//        }
+        while(result.next()){
+            int idBook = result.getInt(1);
+            String nameBook = result.getString(2);
+            String description = result.getString(3);
+            String status = result.getString(4);
+            String nxb = result.getString(5);
+
+
+            NXB nxbObject = new NXB(nxb);
+            StatusBook statusBook= new StatusBook(status);
+
+            ArrayList<Category> categories = (ArrayList<Category>) categoryService.findCategoryByID(idBook);
+
+            Book book = new Book(idBook,nameBook,description ,nxbObject, statusBook, categories );
+
+            bookList.add(book);
+
+        }
 
         return bookList;
 

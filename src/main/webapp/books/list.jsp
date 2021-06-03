@@ -15,28 +15,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 <body>
-<h1> Danh sách sản phẩm </h1>
+<h1> Danh sách Book có trong Thư viện </h1>
 <table class="table table-striped table-hover">
     <tr >
         <td >Tên Sách</td>
         <td >Nội dung sách</td>
 
         <td >Tình trạng</td>
-        <td >Loại sách</td>
         <td >Nhà xuất bản</td>
+        <td >Loại sách</td>
+        <td>Hình ảnh sách </td>
 
         <td>Edit</td>
         <td>Delete</td>
     </tr>
     <c:forEach items="${bookList}" var="book">
         <tr class="table-primary">
-            <td >${book.name}</td>
-            <td >${book.price}</td>
-            <td ><c:forEach items="${book.categories}" var="category">
+            <td>${book.name}</td>
+            <td>${book.description}</td>
+            <td>${book.statusBook.name}</td>
+            <td>${book.nxb.name}</td>
+            <td><c:forEach items="${book.categories}" var="category">
                 <span>${category.name}</span>
             </c:forEach>
 
             </td>
+            <td>${book.urlOfImage}</td>
 
             <td class="table-primary"><a href="/book?action=edit&id=${book.id}">edit</a></td>
             <td class="table-primary"><a href="/book?action=delete&id=${book.id}">delete</a></td>
