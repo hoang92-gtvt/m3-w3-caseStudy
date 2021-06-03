@@ -18,3 +18,4 @@ public interface ICategoryService extends IService<Book> {
     @Override
     void delete(int index);
 }
+
