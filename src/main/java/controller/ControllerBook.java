@@ -114,7 +114,7 @@ public class ControllerBook extends HttpServlet {
         }
     }
 
-    private void Create(HttpServletRequest request, HttpServletResponse response) {
+    private void Create(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         int status_id = Integer.parseInt(request.getParameter("status"));
@@ -138,9 +138,9 @@ public class ControllerBook extends HttpServlet {
 
         }
 
+        bookService.create(newBook,categoriesInt);
 
-
-
+        showAllBook(request, response);
 
     }
 }

@@ -44,6 +44,11 @@ public class CategoryService implements ICategoryService{
 
     }
 
+    @Override
+    public Category getObjectById(int id) {
+        return null;
+    }
+
 
     @Override
     public List<Category> findCategoryByID(int idOfBook) throws SQLException {

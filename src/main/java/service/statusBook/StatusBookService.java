@@ -44,4 +44,9 @@ public class StatusBookService implements IStatusBookService{
     public void delete(int index) {
 
     }
+
+    @Override
+    public StatusBook getObjectById(int id) {
+        return null;
+    }
 }

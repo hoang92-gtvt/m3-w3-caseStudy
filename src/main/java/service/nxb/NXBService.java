@@ -44,4 +44,9 @@ public class NXBService implements INXBService{
     public void delete(int index) {
 
     }
+
+    @Override
+    public NXB getObjectById(int id) {
+        return null;
+    }
 }

@@ -7,6 +7,10 @@ public class NXB {
     public NXB() {
     }
 
+    public NXB(int id) {
+        this.id = id;
+    }
+
     public NXB(String name) {
         this.name = name;
     }

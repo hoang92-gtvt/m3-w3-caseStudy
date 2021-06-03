@@ -14,9 +14,12 @@ import java.util.List;
 
 public class BookService implements IBookService {
 
-    public static final String insertBook = "insert into book (name, price) value (?,?)";
+
     public static final String INSERTINTORELATIVE = "insert into relative(bookID, categoryID) value(?,?)";
     public static final String findBookByID = "select * from book where id=?";
+    public static final String insertBook = "insert into book(name, description, status_id, nxb_id, urlOfImage) value (?,?,?,?,?)";
+    public static final String insertBooK_Category = "insert into book_category(book_id, category_id) value(?,?)";
+
     ICategoryService categoryService = new CategoryService();
 
 
@@ -46,11 +49,38 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void create(Book newBook, int[] categoryId) {
+    public void create(Book newBook, int[] categoryId) throws SQLException {
 
+
+     connection.setAutoCommit(false);
+
+     PreparedStatement statement = connection.prepareStatement(insertBook, PreparedStatement.RETURN_GENERATED_KEYS );
+     statement.setString(1, newBook.getName());
+     statement.setString(2, newBook.getDescription());
+     statement.setInt(3, newBook.getStatusBook().getId());
+     statement.setInt(4, newBook.getNxb().getId());
+     statement.setString(5, newBook.getUrlOfImage());
+
+     statement.executeUpdate();
+     int id=0;
+     ResultSet result  = statement.getGeneratedKeys();
+        while(result.next()){
+            id = result.getInt(1);
+        }
+
+     PreparedStatement statement1 = connection.prepareStatement(insertBooK_Category);
+
+        for (int i = 0; i < categoryId.length; i++) {
+            statement1.setInt(1, id);
+            statement1.setInt(2, categoryId[i]);
+            statement1.executeUpdate();
+        }
+
+     connection.commit();
 
 
     }
+
 
 
     @Override
@@ -99,6 +129,10 @@ public class BookService implements IBookService {
 
     }
 
+    @Override
+    public Book getObjectById(int id) {
+        return null;
+    }
 
 
 }
