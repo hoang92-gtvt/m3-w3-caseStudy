@@ -3,6 +3,12 @@ package controller;
 import model.Book;
 import service.book.BookService;
 import service.book.IBookService;
+import service.category.CategoryService;
+import service.category.ICategoryService;
+import service.nxb.INXBService;
+import service.nxb.NXBService;
+import service.statusBook.IStatusBookService;
+import service.statusBook.StatusBookService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -15,6 +21,9 @@ import java.util.List;
 @WebServlet(name = "ControllerBook", value ="/book")
 public class ControllerBook extends HttpServlet {
     IBookService bookService = new BookService();
+    ICategoryService categoryService = new CategoryService();
+    INXBService nxbService = new NXBService();
+    IStatusBookService statusBookService = new StatusBookService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,12 +35,9 @@ public class ControllerBook extends HttpServlet {
             }
             switch (action) {
 
-//                case "":
-//                    showAllBook(request,response);
-//                    break;
-//                case "creat":
-//                    showFormCreate(request, response);
-//                    break;
+                case "creat":
+                    showFormCreate(request, response);
+                    break;
 //
 //                case "edit":
 //                    showFormEdit(request, response);
@@ -47,6 +53,19 @@ public class ControllerBook extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+    private void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/books.formCreate.jsp");
+
+
+        dispatcher.forward(request,response);
+
+    }
+
     private void showAllBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/books/list.jsp");
 
