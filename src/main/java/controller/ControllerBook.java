@@ -93,9 +93,9 @@ public class ControllerBook extends HttpServlet {
                 action = "";
             }
             switch (action) {
-//                case "creat":
-//                    Create(request, response);
-//                    break;
+                case "create":
+                    Create(request, response);
+                    break;
 //
 //                case "edit":
 //                    Edit(request, response);
@@ -112,5 +112,35 @@ public class ControllerBook extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void Create(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        int status_id = Integer.parseInt(request.getParameter("status"));
+        int nxb_id = Integer.parseInt(request.getParameter("nxb"));
+        String urlOfImage = request.getParameter("urlOfImage");
+
+        StatusBook status = new StatusBook(status_id);
+        NXB nxb = new NXB(nxb_id);
+
+
+        Book newBook = new Book(name,description,nxb,status, urlOfImage);
+
+
+        String[] categoriesStr = request.getParameterValues("category");
+
+        int[] categoriesInt= new int[categoriesStr.length];
+
+
+        for (int i = 0; i < categoriesInt.length; i++) {
+            categoriesInt[i]= Integer.parseInt(categoriesStr[i]);
+
+        }
+
+
+
+
+
     }
 }

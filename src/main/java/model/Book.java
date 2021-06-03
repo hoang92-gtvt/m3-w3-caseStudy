@@ -46,6 +46,14 @@ public class Book {
         this.categories = categories;
     }
 
+    public Book(String name, String description, NXB nxb, StatusBook statusBook, String urlOfImage) {
+        this.name = name;
+        this.description = description;
+        this.nxb = nxb;
+        this.statusBook = statusBook;
+        this.urlOfImage = urlOfImage;
+    }
+
     public NXB getNxb() {
         return nxb;
     }

@@ -45,6 +45,13 @@ public class BookService implements IBookService {
 
     }
 
+    @Override
+    public void create(Book newBook, int[] categoryId) {
+
+
+
+    }
+
 
     @Override
     public ArrayList<Book> findAll() throws SQLException {
@@ -91,5 +98,7 @@ public class BookService implements IBookService {
     public void delete(int index) {
 
     }
+
+
 
 }
