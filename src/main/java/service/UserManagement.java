@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import model.Role;
 import model.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,9 +18,11 @@ public class UserManagement {
     private static final String SELECT_USER_BY_ID = "select * from users where id =?";
     private static final String SELECT_ALL_USERS = "select * from users";
     private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
+    private static final String UPDATE_IN4_SQL = "update users set name = ?,birthday= ?,email=?,phone=?,urlOfImage=?,role_id=? where id = ?;";
     private static final String UPDATE_USERS_SQL = "update users set name = ?,birthday= ?, phone=?,urlOfImage=? where id = ?;";
     private static final String CHANGE_PASSWORD = "update users set password =? where id =?; ";
     private static final String SET_ROLE = "update users set role = ? where id =?";
+    RoleManagement roleManagement = new RoleManagement();
     Connection connection = ConnectionJDBC.getConnect();
     public UserManagement() {
     }
@@ -33,7 +36,7 @@ public class UserManagement {
             preparedStatement.setString(4, user.getPhone());
             preparedStatement.setString(5, user.getUserName());
             preparedStatement.setString(6, user.getPass());
-            preparedStatement.setInt(7, user.getRole());
+            preparedStatement.setInt(7, user.getRole().getId());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         }
@@ -53,7 +56,8 @@ public class UserManagement {
                 String urlOfImage = resultSet.getString("urlOfImage");
                 String userName = resultSet.getString("userName");
                 String Pass = resultSet.getString("pass");
-                int role = resultSet.getInt("role_id");
+                int roleid = resultSet.getInt("role_id");
+                Role role = roleManagement.findRoleById(roleid);
                 user = new User(id, name, birthday, email, phone, urlOfImage, userName, Pass, role);
             }
             return user;
@@ -72,7 +76,8 @@ public class UserManagement {
                 String urlOfImage = resultSet.getString("urlOfImage");
                 String userName = resultSet.getString("userName");
                 String Pass = resultSet.getString("pass");
-                int role = resultSet.getInt("role_id");
+                int roleid = resultSet.getInt("role_id");
+                Role role = roleManagement.findRoleById(roleid);
                 users.add(new User(id,name,birthday,email,phone,urlOfImage,userName,Pass,role));
             }
             return users;
@@ -82,16 +87,17 @@ public class UserManagement {
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                String name = rs.getString("name");
-                String birthday = rs.getString("birthday");
-                String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                String urlOfImage = rs.getString("urlOfImage");
-                String userName = rs.getString("userName");
-                String Pass = rs.getString("pass");
-                int role = rs.getInt("role_id");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String birthday = resultSet.getString("birthday");
+                String email = resultSet.getString("email");
+                String phone = resultSet.getString("phone");
+                String urlOfImage = resultSet.getString("urlOfImage");
+                String userName = resultSet.getString("userName");
+                String Pass = resultSet.getString("pass");
+                int roleid = resultSet.getInt("role_id");
+                Role role = roleManagement.findRoleById(roleid);
                 user = new User(id,name,birthday,email,phone,urlOfImage,userName,Pass,role);
             }
         return user;
@@ -113,8 +119,15 @@ public class UserManagement {
         statement.setInt(5,id);
         statement.executeUpdate();
     }
-
-
-
-
+    public void updateUserIn4(User user) throws SQLException{
+        PreparedStatement statement = connection.prepareStatement(UPDATE_IN4_SQL);
+        statement.setString(1, user.getName());
+        statement.setString(2, user.getBirthday());
+        statement.setString(3, user.getEmail());
+        statement.setString(4, user.getPhone());
+        statement.setString(5, user.getUrlOfImg());
+        statement.setInt(6,user.getRole().getId());
+        statement.setInt(7,user.getId());
+        statement.executeUpdate();
+    }
 }

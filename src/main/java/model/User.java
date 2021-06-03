@@ -9,8 +9,8 @@ public class User {
     private String urlOfImg;
     private String userName;
     private String pass;
-    private int role;
-    public User(int id, String name, String birthday, String email, String phone, String urlOfImg, String userName, String pass, int role) {
+    private Role role;
+    public User(int id, String name, String birthday, String email, String phone, String urlOfImg, String userName, String pass, Role role) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -21,7 +21,17 @@ public class User {
         this.pass = pass;
         this.role = role;
     }
-    public User(String name, String birthday, String email, String phone, String urlOfImg, String userName, String pass, int role) {
+    public User(int id, String name, String birthday, String email, String phone, String urlOfImg, Role role) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.email = email;
+        this.phone = phone;
+        this.urlOfImg = urlOfImg;
+        this.role = role;
+    }
+
+    public User(String name, String birthday, String email, String phone, String urlOfImg, String userName, String pass, Role role) {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
@@ -32,7 +42,7 @@ public class User {
         this.role = role;
     }
 
-    public User(String name, String birthday, String email, String phone, String userName, String pass, int role) {
+    public User(String name, String birthday, String email, String phone, String userName, String pass, Role role) {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
@@ -41,7 +51,6 @@ public class User {
         this.pass = pass;
         this.role = role;
     }
-
 
     public int getId() {
         return id;
@@ -91,10 +100,10 @@ public class User {
     public void setPass(String pass) {
         this.pass = pass;
     }
-    public int getRole() {
+    public Role getRole() {
         return role;
     }
-    public void setRole(int role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }
