@@ -8,5 +8,5 @@ public interface IService <E> {
     void creat(E newE);
     void edit(int index, E newE);
     void delete(int index);
-    E getObjectById(int id);
+    E getObjectById(int id) throws SQLException ;
 }

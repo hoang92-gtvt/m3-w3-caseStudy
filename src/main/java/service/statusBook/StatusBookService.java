@@ -46,7 +46,7 @@ public class StatusBookService implements IStatusBookService{
     }
 
     @Override
-    public StatusBook getObjectById(int id) {
+    public StatusBook getObjectById(int id)throws SQLException {
         return null;
     }
 }

@@ -29,16 +29,19 @@ public class BookService implements IBookService {
 
 
     @Override
-    public Book getBookById(int id) throws SQLException {
+    public Book getObjectById (int id) throws SQLException {
         Book oldBook = null;
-//        PreparedStatement statement = connection.prepareStatement(findBookByID);
-//        statement.setInt(1, id);
-//        ResultSet result = statement.executeQuery();
-//        while(result.next()){
-//            String  name = result.getString("name");
-//            String  description = result.getString("description");
-//            oldBook = new Book (name, description);
-//        }
+        PreparedStatement statement = connection.prepareStatement(findBookByID);
+        statement.setInt(1, id);
+        ResultSet result = statement.executeQuery();
+        while(result.next()){
+
+            String  name = result.getString("name");
+            String  description = result.getString("description");
+            String  urlOfImage = result.getString("urlOfImage");
+
+            oldBook = new Book (name, description, urlOfImage);
+        }
 
         return oldBook;
     }
@@ -129,10 +132,6 @@ public class BookService implements IBookService {
 
     }
 
-    @Override
-    public Book getObjectById(int id) {
-        return null;
-    }
 
 
 }

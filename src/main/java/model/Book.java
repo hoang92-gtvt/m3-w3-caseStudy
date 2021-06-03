@@ -54,6 +54,12 @@ public class Book {
         this.urlOfImage = urlOfImage;
     }
 
+    public Book(String name, String description, String urlOfImage) {
+        this.name = name;
+        this.description = description;
+        this.urlOfImage = urlOfImage;
+    }
+
     public NXB getNxb() {
         return nxb;
     }

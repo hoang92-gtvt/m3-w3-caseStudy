@@ -41,10 +41,10 @@ public class ControllerBook extends HttpServlet {
                 case "create":
                     showFormCreate(request, response);
                     break;
-//
-//                case "edit":
-//                    showFormEdit(request, response);
-//                    break;
+
+                case "edit":
+                    showFormEdit(request, response);
+                    break;
 //
 //                case "delete":
 //                    showFormDelete(request,response);
@@ -57,16 +57,39 @@ public class ControllerBook extends HttpServlet {
         }
     }
 
+    private void showFormEdit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        ArrayList<StatusBook> statusBooks = statusBookService.findAll();
+        ArrayList<NXB> nxbList = nxbService .findAll();
+        ArrayList<Category> categories = categoryService.findAll();
+
+        int id  = Integer.parseInt(request.getParameter("id"));
+        Book oldBook = bookService.getObjectById(id);
+
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/books/formEdit.jsp");
+        request.setAttribute("statusBooks", statusBooks);
+        request.setAttribute("nxbList", nxbList);
+        request.setAttribute("categories", categories);
+        request.setAttribute("oldBook", oldBook);
+
+        dispatcher.forward(request,response);
+
+    }
+
     private void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         ArrayList<StatusBook> statusBooks = statusBookService.findAll();
         ArrayList<NXB> nxbList = nxbService .findAll();
         ArrayList<Category> categories = categoryService.findAll();
 
 
+
+
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/books/formCreate.jsp");
         request.setAttribute("statusBooks", statusBooks);
         request.setAttribute("nxbList", nxbList);
         request.setAttribute("categories", categories);
+
 
         dispatcher.forward(request,response);
 

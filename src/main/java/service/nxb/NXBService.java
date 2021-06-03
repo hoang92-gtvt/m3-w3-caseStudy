@@ -46,7 +46,7 @@ public class NXBService implements INXBService{
     }
 
     @Override
-    public NXB getObjectById(int id) {
+    public NXB getObjectById(int id) throws SQLException {
         return null;
     }
 }
