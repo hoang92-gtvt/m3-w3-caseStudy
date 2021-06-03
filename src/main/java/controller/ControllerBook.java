@@ -9,20 +9,26 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "ControllerBook", value = "/book")
+@WebServlet(name = "ControllerBook", value ="/book")
 public class ControllerBook extends HttpServlet {
     IBookService bookService = new BookService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        System.out.println(action);
         try {
             if (action == null) {
                 action = "";
             }
             switch (action) {
+
+//                case "":
+//                    showAllBook(request,response);
+//                    break;
 //                case "creat":
 //                    showFormCreate(request, response);
 //                    break;
@@ -41,15 +47,11 @@ public class ControllerBook extends HttpServlet {
             e.printStackTrace();
         }
     }
-    private void showAllBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void showAllBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
-        List<Book> bookList = null;
+        ArrayList<Book> bookList = new ArrayList<>();
 
-        try {
-            bookList = bookService.findAll();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        bookList = bookService.findAll();
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/books/list.jsp");
         request.setAttribute("bookList", bookList);
@@ -65,7 +67,7 @@ public class ControllerBook extends HttpServlet {
             if (action == null) {
                 action = "";
             }
-//            switch (action) {
+            switch (action) {
 //                case "creat":
 //                    Create(request, response);
 //                    break;
@@ -76,8 +78,11 @@ public class ControllerBook extends HttpServlet {
 //
 //                case "delete":
 //                    delete(request,response);
-//                default:
-//            }
+//
+            default:
+                showAllBook(request, response);
+                break;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

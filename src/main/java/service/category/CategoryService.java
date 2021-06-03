@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CategoryService implements ICategoryService{
 
-    Connection conection = ConnectionJDBC.getConnect();
+    Connection connection = ConnectionJDBC.getConnect();
 
     @Override
     public ArrayList<CategoryService> findAll() {
@@ -36,24 +36,24 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public List<Category> findCategoryByID(int id) throws SQLException {
+    public List<Category> findCategoryByID(int idOfBook) throws SQLException {
         List<Category> categories= new ArrayList<>();
 
-        PreparedStatement statement = connection.prepareStatement(FINDCATEGORYBYIDOFBOOK);
-        statement.setInt(1, idOfBook);
-
-        ResultSet resultSet= statement.executeQuery();
-
-        while(resultSet.next()){
-            int categoryId = resultSet.getInt(1);
-            String  categoryName = resultSet.getString(2);
-            Category category = new Category(categoryId, categoryName);
-
-            categories.add(category);
-            System.out.println("");
-
-        }
-        System.out.println(categories);
+//        PreparedStatement statement = connection.prepareStatement("FINDCATEGORYBYIDOFBOOK");
+//        statement.setInt(1, idOfBook);
+//
+//        ResultSet resultSet= statement.executeQuery();
+//
+//        while(resultSet.next()){
+//            int categoryId = resultSet.getInt(1);
+//            String  categoryName = resultSet.getString(2);
+//            Category category = new Category(categoryId, categoryName);
+//
+//            categories.add(category);
+//            System.out.println("");
+//
+//        }
+//        System.out.println(categories);
         return categories;
     }
 }
