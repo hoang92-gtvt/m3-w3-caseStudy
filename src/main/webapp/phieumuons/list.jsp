@@ -37,7 +37,7 @@
             <td>${phieumuon.duedate}</td>
             <td>${phieumuon.user.name}</td>
             <td>${phieumuon.statusPM.name}</td>
-            <td><c:forEach items="${phieumuon.bookList}" var="book">
+            <td><c:forEach items="${phieumuon.getBookList()}" var="book">
                 <span>${book.name}</span>
             </c:forEach>
 
