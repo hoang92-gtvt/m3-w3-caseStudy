@@ -19,6 +19,8 @@ public class BookService implements IBookService {
     public static final String findBookByID = "select * from book where id=?";
     public static final String insertBook = "insert into book(name, description, status_id, nxb_id, urlOfImage) value (?,?,?,?,?)";
     public static final String insertBooK_Category = "insert into book_category(book_id, category_id) value(?,?)";
+    public static final String EDITBOOK = "update  book set name= ?, description = ?, status_id =?, nxb_id=?,urlOfImage=? where id= ?;";
+    public static final String DELETEBOOK_CATEGORY = "delete from book_category where book_id =?";
 
     ICategoryService categoryService = new CategoryService();
 
@@ -48,6 +50,29 @@ public class BookService implements IBookService {
 
     @Override
     public void edit(int id, Book updateBook, int[] categories_int) throws SQLException {
+
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement(EDITBOOK);
+            statement.setString(1,updateBook.getName());
+            statement.setString(2,updateBook.getDescription());
+            statement.setInt(3,updateBook.getStatusBook().getId());
+            statement.setInt(4,updateBook.getNxb().getId());
+            statement.setString(5,updateBook.getUrlOfImage());
+            statement.setInt(6,id);
+            statement.executeUpdate();
+
+            PreparedStatement statement1 = connection.prepareStatement(DELETEBOOK_CATEGORY);
+            statement1.setInt(1,id);
+            statement1.executeUpdate();
+
+            PreparedStatement statement2 = connection.prepareStatement(insertBooK_Category);
+            for (int i = 0; i < categories_int.length; i++) {
+
+                statement2.setInt(1,id);
+                statement2.setInt(2, categories_int[i]);
+                statement2.executeUpdate();
+            }
+
 
     }
 

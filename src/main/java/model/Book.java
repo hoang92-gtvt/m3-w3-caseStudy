@@ -28,12 +28,13 @@ public class Book {
         this.description = description;
     }
 
-    public Book(int id, String name, String description, NXB nxb, ArrayList<Category> categories) {
+    public Book(int id, String name, String description, NXB nxb, StatusBook status, String urlOfImage) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.nxb = nxb;
-        this.categories = categories;
+        this.urlOfImage = urlOfImage;
+        this.statusBook= status;
     }
 
     public Book(int id, String name, String description, NXB nxb, StatusBook statusBook,  ArrayList<Category> categories) {

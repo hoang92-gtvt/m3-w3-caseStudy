@@ -24,7 +24,7 @@
 
 
     <div class="mb-3">
-        <label  class="form-label">Mổ tả</label>
+        <label  class="form-label">Mô tả</label>
         <input type="text" class="form-control" name="description" value="${oldBook.description}">
     </div>
 
@@ -84,9 +84,16 @@
     <%--        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>--%>
     <%--        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>--%>
     <%--    </div>--%>
-    <button type="submit">Create New Book</button>
+    <button type="submit">Uppdate</button>
 </form>
 
 
 </body>
 </html>
+
+<style>
+    .form-label {
+        font-weight: bolder;
+        font-size: 110% ;
+    }
+</style>
