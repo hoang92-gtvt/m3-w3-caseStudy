@@ -46,8 +46,8 @@ public class ControllerBook extends HttpServlet {
                     showFormEdit(request, response);
                     break;
 //
-//                case "delete":
-//                    showFormDelete(request,response);
+                case "delete":
+                    showFormDelete(request,response);
                 default:
                     showAllBook(request, response);
                     break;
@@ -55,6 +55,15 @@ public class ControllerBook extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showFormDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        int id = Integer.parseInt(request.getParameter("id"));
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("books/delete.jsp");
+//        request.setAttribute("id", id);
+        dispatcher.forward(request,response);
+
     }
 
     private void showFormEdit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -120,8 +129,8 @@ public class ControllerBook extends HttpServlet {
                     Edit(request, response);
                     break;
 
-//                case "delete":
-//                    delete(request,response);
+                case "delete":
+                    delete(request,response);
 //
             default:
                 showAllBook(request, response);
@@ -131,6 +140,14 @@ public class ControllerBook extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException, IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        bookService.delete(id);
+        showAllBook(request, response);
+
     }
 
     private void Edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

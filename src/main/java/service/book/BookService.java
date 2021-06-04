@@ -21,6 +21,7 @@ public class BookService implements IBookService {
     public static final String insertBooK_Category = "insert into book_category(book_id, category_id) value(?,?)";
     public static final String EDITBOOK = "update  book set name= ?, description = ?, status_id =?, nxb_id=?,urlOfImage=? where id= ?;";
     public static final String DELETEBOOK_CATEGORY = "delete from book_category where book_id =?";
+    public static final String Delete_Book = "delete from book where id=?;";
 
     ICategoryService categoryService = new CategoryService();
 
@@ -153,7 +154,19 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void delete(int index) {
+    public void delete(int index) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        PreparedStatement statement1 = connection.prepareStatement(DELETEBOOK_CATEGORY);
+        statement1.setInt(1,index);
+        statement1.executeUpdate();
+
+        PreparedStatement statement2 = connection.prepareStatement(Delete_Book);
+        statement2.setInt(1,index);
+        statement2.executeUpdate();
+
+        connection.commit();
 
     }
 
