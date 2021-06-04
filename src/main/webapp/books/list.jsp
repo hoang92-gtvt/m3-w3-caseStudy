@@ -29,21 +29,21 @@
         <td>Edit</td>
         <td>Delete</td>
     </tr>
-    <c:forEach items="${bookList}" var="book">
+    <c:forEach items="${bookList}" var="phieumuon">
         <tr class="table-primary">
-            <td>${book.name}</td>
-            <td>${book.description}</td>
-            <td>${book.statusBook.name}</td>
-            <td>${book.nxb.name}</td>
-            <td><c:forEach items="${book.categories}" var="category">
+            <td>${phieumuon.name}</td>
+            <td>${phieumuon.description}</td>
+            <td>${phieumuon.statusBook.name}</td>
+            <td>${phieumuon.nxb.name}</td>
+            <td><c:forEach items="${phieumuon.categories}" var="category">
                 <span>${category.name}</span>
             </c:forEach>
 
             </td>
-            <td>${book.urlOfImage}</td>
+            <td>${phieumuon.urlOfImage}</td>
 
-            <td class="table-primary"><a href="/book?action=edit&id=${book.id}">edit</a></td>
-            <td class="table-primary"><a href="/book?action=delete&id=${book.id}">delete</a></td>
+            <td class="table-primary"><a href="/book?action=edit&id=${phieumuon.id}">edit</a></td>
+            <td class="table-primary"><a href="/book?action=delete&id=${phieumuon.id}">delete</a></td>
 
         </tr>
 

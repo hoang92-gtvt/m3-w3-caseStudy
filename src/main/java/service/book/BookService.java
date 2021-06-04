@@ -112,6 +112,7 @@ public class BookService implements IBookService {
 
 
 
+
     @Override
     public ArrayList<Book> findAll() throws SQLException {
         ArrayList<Book> bookList = new ArrayList<>();
@@ -170,6 +171,30 @@ public class BookService implements IBookService {
 
     }
 
+
+    @Override
+    public ArrayList<Book> getBookListById(int idOfPM) throws SQLException {
+        ArrayList<Book> bookList= new ArrayList<>();
+
+        CallableStatement statement = connection.prepareCall(CALL_GET_CATEGORY_BY_ID_BOOK);
+        statement.setInt(1, idOfPM);
+
+        ResultSet resultSet= statement.executeQuery();
+
+        while(resultSet.next()){
+
+            String  categoryName = resultSet.getString(1);
+            Category category = new Category(categoryName);
+
+            categories.add(category);
+            System.out.println("");
+
+        }
+
+        return bookList;
+
+
+    }
 
 
 }

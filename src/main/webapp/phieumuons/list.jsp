@@ -24,34 +24,36 @@
         <td >Hạn trả sách</td>
         <td >Tên người mượn</td>
         <td >Tình trạng phiếu mượn</td>
+        <td >Tên sách</td>
 
 
         <td>Edit</td>
         <td>Delete</td>
     </tr>
-<%--    <c:forEach items="${bookList}" var="book">--%>
-<%--        <tr class="table-primary">--%>
-<%--            <td>${book.name}</td>--%>
-<%--            <td>${book.description}</td>--%>
-<%--            <td>${book.statusBook.name}</td>--%>
-<%--            <td>${book.nxb.name}</td>--%>
-<%--            <td><c:forEach items="${book.categories}" var="category">--%>
-<%--                <span>${category.name}</span>--%>
-<%--            </c:forEach>--%>
+    <c:forEach items="${pmList}" var="phieumuon">
+        <tr class="table-primary">
+            <td>${phieumuon.identity}</td>
+            <td>${phieumuon.date}</td>
+            <td>${phieumuon.duedate}</td>
+            <td>${phieumuon.user.name}</td>
+            <td>${phieumuon.statusPM.name}</td>
+            <td><c:forEach items="${phieumuon.bookList}" var="book">
+                <span>${book.name}</span>
+            </c:forEach>
 
-<%--            </td>--%>
-<%--            <td>${book.urlOfImage}</td>--%>
+            </td>
 
-<%--            <td class="table-primary"><a href="/book?action=edit&id=${book.id}">edit</a></td>--%>
-<%--            <td class="table-primary"><a href="/book?action=delete&id=${book.id}">delete</a></td>--%>
 
-<%--        </tr>--%>
+            <td class="table-primary"><a href="/book?action=edit&id=${phieumuon.id}">edit</a></td>
+            <td class="table-primary"><a href="/book?action=delete&id=${phieumuon.id}">delete</a></td>
 
-<%--    </c:forEach>--%>
+        </tr>
+
+    </c:forEach>
 
 </table>
 
-<a href="/phieumuon?action=create">Thêm mới sách</a>
+<a href="/phieumuon?action=create">Thêm một phiếu</a>
 
 
 
