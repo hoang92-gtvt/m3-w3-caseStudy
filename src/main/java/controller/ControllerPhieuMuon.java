@@ -1,9 +1,14 @@
 package controller;
 
-import model.Book;
-import model.PhieuMuon;
+import model.*;
+import service.book.BookService;
+import service.book.IBookService;
 import service.phieumuon.IPhieumuonService;
 import service.phieumuon.PhieuMuonService;
+import service.statusPM.IStatusPMService;
+import service.statusPM.StatusPMService;
+import service.user.IUserService;
+import service.user.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -17,6 +22,11 @@ public class ControllerPhieuMuon extends HttpServlet {
 
     IPhieumuonService phieumuonService = new PhieuMuonService();
 
+    IUserService userService = new UserService();
+    IStatusPMService statusPMService = new StatusPMService();
+    IBookService bookService = new BookService();
+
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -27,9 +37,9 @@ public class ControllerPhieuMuon extends HttpServlet {
             }
             switch (action) {
 
-//                case "create":
-//                    showFormCreate(request, response);
-//                    break;
+                case "create":
+                    showFormCreate(request, response);
+                    break;
 //
 //                case "edit":
 //                    showFormEdit(request, response);
@@ -44,6 +54,22 @@ public class ControllerPhieuMuon extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+
+        ArrayList<User> users = userService.findAll();
+//        ArrayList<StatusPM> statusPMList = statusPMService.findAll();
+        ArrayList<Book> books = bookService.findAll();
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/phieumuons/formCreate.jsp");
+        request.setAttribute("userList", users);
+//        request.setAttribute("statusPMList", statusPMList);
+        request.setAttribute("bookList", books);
+
+
+        dispatcher.forward(request,response);
+
     }
 
     private void showAllPhieuMuon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

@@ -15,65 +15,64 @@
 
 </head>
 <body>
-<h1>FORM CREAT NEW BOOK</h1>
+<h1>FORM CREAT NEW PHIEU MUON</h1>
+<a href="/phieumuon?action=home">Quay về trang phiếu mượn</a>
+<br>
 <form class="mb-3" method="post">
     <div class="mb-3">
-        <label  class="form-label">Tên sách</label>
-        <input type="text" class="form-control" name="name" placeholder="Sách ABC">
+        <label  class="form-label">Mã Phiếu</label>
+        <input type="text" class="form-control" name="identity" placeholder="PM000">
     </div>
 
 
     <div class="mb-3">
-        <label  class="form-label">Mổ tả</label>
-        <input type="text" class="form-control" name="description" placeholder="Hướng dẫn ....">
+        <label  class="form-label">Ngày Mượn</label>
+        <input type="text" class="form-control" name="date" placeholder="2021-06-01">
+    </div>
+
+    <div class="mb-3">
+        <label  class="form-label">Ngày Đáo Hạn</label>
+        <input type="text" class="form-control" name="duedate" placeholder="2021-09-01">
     </div>
 
    <div class="mb-3">
-    <label  class="form-label">Tình trạng sách</label>
+    <label  class="form-label">Người mượn</label>
        <br>
 
-       <c:forEach items="${statusBooks}" var="status">
-       <input  type="radio" name="status" value="${status.id}">
-       <label>${status.name}</label>
-       <br>
-        </c:forEach>
+       <c:forEach items="${userList}" var="user">
+
+       <input  type="radio" name="user_id" value="${user.id}">
+       <label>${user.userName}</label>
+
+       </c:forEach>
 
 
    </div>
 
 
     <div class="mb-3">
-        <label  class="form-label">Nhà xuất bản sách </label>
+        <label  class="form-label">Tình trạng phiếu mượn </label>
         <br>
 
-        <c:forEach items="${nxbList}" var="nxb">
-            <input  type="radio" name="nxb" value="${nxb.id}">
-            <label>${nxb.name}</label>
-            <br>
-        </c:forEach>
+<%--        <c:forEach items="${statusPMList}" var="status">--%>
+            <input  type="radio" name="nxb" value="1">
+            <label>Mới</label>
+
+<%--        </c:forEach>--%>
 
 
 
     </div>
 
-
     <div class="mb-3">
-        <label  class="form-label">Đường dẫn link ảnh</label>
-        <input type="text" class="form-control" name="urlOfImage" placeholder="....*png">
-    </div>
-
-
-    <div class="mb-3">
-        <label  class="form-label">Nhà xuất bản sách </label>
+        <label  class="form-label">Lựa chọn sách mượn </label>
         <br>
+        <select name="books">
+        <c:forEach items="${bookList}" var="book">
+            <option value="${book.id}">${book.name}</option>
 
-        <c:forEach items="${categories}" var="category">
-
-            <input class="form-check-input" type="checkbox" name="category" value="${category.id}">
-            <label class="form-check-label" > ${category.name} </label>
-            <br>
         </c:forEach>
-
+        </select>
 
 
     </div>
@@ -84,7 +83,7 @@
 <%--        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>--%>
 <%--        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>--%>
 <%--    </div>--%>
-    <button type="submit">Create New Book</button>
+    <button type="submit">Create New Phieu Muon </button>
 </form>
 
 

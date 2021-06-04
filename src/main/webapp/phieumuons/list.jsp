@@ -53,7 +53,7 @@
 
 </table>
 
-<a href="/phieumuon?action=create">Thêm một phiếu</a>
+<a href="/phieumuon?action=create">Thêm một phiếu Mượn</a>
 
 
 

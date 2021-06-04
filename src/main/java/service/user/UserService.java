@@ -5,6 +5,8 @@ import model.StatusPM;
 import model.User;
 import service.IService;
 import service.connection.ConnectionJDBC;
+import service.role.IRoleService;
+import service.role.RoleService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,9 +17,32 @@ import java.util.ArrayList;
 public class UserService implements IUserService {
 
     Connection connection = ConnectionJDBC.getConnect();
+    IRoleService roleService = new RoleService();
+
+    private static final String SELECT_ALL_USERS = "select * from users";
+
     @Override
     public ArrayList<User> findAll() throws SQLException {
-        return null;
+        ArrayList<User> users = new ArrayList<>();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);
+        System.out.println(preparedStatement);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            String birthday = resultSet.getString("birthday");
+            String email = resultSet.getString("email");
+            String phone = resultSet.getString("phone");
+            String urlOfImage = resultSet.getString("urlOfImage");
+            String userName = resultSet.getString("userName");
+            String pass = resultSet.getString("pass");
+            int role_id = resultSet.getInt("role_id");
+
+            Role role = roleService.getObjectById(role_id);
+            users.add(new User(id,name,birthday,email,phone,urlOfImage,userName,pass,role));
+        }
+        return users;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package service.statusPM;
 
 import model.Book;
+import model.StatusBook;
 import model.StatusPM;
 import service.connection.ConnectionJDBC;
 
@@ -10,13 +11,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class StatusService implements IStatusPMService{
+public class StatusPMService implements IStatusPMService{
 
     Connection connection = ConnectionJDBC.getConnect();
 
     @Override
     public ArrayList<StatusPM> findAll() throws SQLException {
-        return null;
+        ArrayList<StatusPM> statusPMList = new ArrayList<>();
+
+        PreparedStatement statement = connection.prepareStatement("select * from statuspm ;");
+
+        ResultSet result =statement.executeQuery();
+
+        while(result.next()){
+            int id = result.getInt(1);
+            String statusPM = result.getString(2);
+            StatusPM statusPMObject = new StatusPM(id,statusPM);
+            statusPMList.add(statusPMObject);
+        }
+
+        return statusPMList;
     }
 
     @Override

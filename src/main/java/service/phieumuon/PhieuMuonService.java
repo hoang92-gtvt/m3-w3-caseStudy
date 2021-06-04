@@ -5,7 +5,7 @@ import service.book.BookService;
 import service.book.IBookService;
 import service.connection.ConnectionJDBC;
 import service.statusPM.IStatusPMService;
-import service.statusPM.StatusService;
+import service.statusPM.StatusPMService;
 import service.user.IUserService;
 import service.user.UserService;
 
@@ -16,7 +16,7 @@ public class PhieuMuonService implements IPhieumuonService{
     Connection connection = ConnectionJDBC.getConnect();
 
     IUserService userService = new UserService();
-    IStatusPMService statusPMService =  new StatusService();
+    IStatusPMService statusPMService =  new StatusPMService();
 
     IBookService bookService = new BookService();
 
