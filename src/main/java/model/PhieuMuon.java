@@ -13,6 +13,8 @@ public class PhieuMuon {
 
     private ArrayList<Book> bookList;
 
+
+
     public ArrayList<Book> getBookList() {
         return bookList;
     }
@@ -33,6 +35,15 @@ public class PhieuMuon {
         this.statusPM = statusPM;
     }
 
+    public PhieuMuon(int id, String identity, String date, String duedate, User user, StatusPM statusPM, ArrayList<Book> bookList) {
+        this.id = id;
+        this.identity = identity;
+        this.date = date;
+        this.duedate = duedate;
+        this.user = user;
+        this.statusPM = statusPM;
+        this.bookList = bookList;
+    }
 
     public int getId() {
         return id;

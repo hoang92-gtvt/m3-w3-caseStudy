@@ -176,17 +176,17 @@ public class BookService implements IBookService {
     public ArrayList<Book> getBookListById(int idOfPM) throws SQLException {
         ArrayList<Book> bookList= new ArrayList<>();
 
-        CallableStatement statement = connection.prepareCall(CALL_GET_CATEGORY_BY_ID_BOOK);
+        CallableStatement statement = connection.prepareCall("call getListBookByIdOfPM(?);");
         statement.setInt(1, idOfPM);
 
         ResultSet resultSet= statement.executeQuery();
 
         while(resultSet.next()){
+            int id =resultSet.getInt(1);
+            String  bookName= resultSet.getString(2);
+            Book book = new Book(id, bookName);
 
-            String  categoryName = resultSet.getString(1);
-            Category category = new Category(categoryName);
-
-            categories.add(category);
+            bookList.add(book);
             System.out.println("");
 
         }

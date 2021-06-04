@@ -39,15 +39,12 @@ public class PhieuMuonService implements IPhieumuonService{
             int  status = result.getInt(6);
 
             User user = userService.getObjectById(user_id);
-            StatusPM statusPM = statusPMService.getObjectById();
+            StatusPM statusPM = statusPMService.getObjectById(status);
+            ArrayList<Book> bookList = bookService.getBookListById(id);
 
 
-//
-//            ArrayList<Category> categories = (ArrayList<Category>) categoryService.findCategoryByID(idBook);
-//
-//            Book book = new Book(idBook,nameBook,description ,nxbObject, statusBook, categories );
-
-//            pmList.add(book);
+            PhieuMuon phieuMuon = new PhieuMuon(id,identity,date,duedate,user,statusPM,bookList);
+            pmList.add(phieuMuon);
 
         }
 

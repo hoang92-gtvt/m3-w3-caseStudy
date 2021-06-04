@@ -44,8 +44,8 @@
             </td>
 
 
-            <td class="table-primary"><a href="/book?action=edit&id=${phieumuon.id}">edit</a></td>
-            <td class="table-primary"><a href="/book?action=delete&id=${phieumuon.id}">delete</a></td>
+            <td class="table-primary"><a href="/phieumuon?action=edit&id=${phieumuon.id}">edit</a></td>
+            <td class="table-primary"><a href="/phieumuon?action=delete&id=${phieumuon.id}">delete</a></td>
 
         </tr>
 
