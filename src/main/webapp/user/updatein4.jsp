@@ -29,11 +29,21 @@
             <td>
                 <input type="text" name="name" size="45" value="<c:out value='${user.name}' />"/>
             </td>
+            <td>
+                <c:if test='${requestScope["namemessage"] != null}'>
+                    <span class="namemessage">${requestScope["namemessage"]}</span>
+                </c:if>
+            </td>
         </tr>
         <tr>
             <th>Birth:</th>
             <td>
                 <input type="text" name="birthday" size="45" value="<c:out value='${user.birthday}' />"/>
+            </td>
+            <td>
+                <c:if test='${requestScope["birthdaymessage"] != null}'>
+                    <span class="birthdaymessage">${requestScope["birthdaymessage"]}</span>
+                </c:if>
             </td>
         </tr>
         <tr>
@@ -46,6 +56,11 @@
             <th>Phone:</th>
             <td>
                 <input type="text" name="phone" size="15" value="<c:out value='${user.phone}' />"/>
+            </td>
+            <td>
+                <c:if test='${requestScope["phonemessage"] != null}'>
+                    <span class="phonemessage">${requestScope["phonemessage"]}</span>
+                </c:if>
             </td>
         </tr>
         <tr>

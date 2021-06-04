@@ -25,43 +25,74 @@
             <tr>
                 <th>Name:</th>
                 <td>
-                    <input type="text" name="name" id="name" size="45"/>
+                    <input type="text" name="name" size="45" value="<c:out value='${user.name}' />"/>
+                </td>
+                <td>
+                    <c:if test='${requestScope["namemessage"] != null}'>
+                        <span class="namemessage">${requestScope["namemessage"]}</span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
-                <th>Birthday:</th>
+                <th>Birth:</th>
                 <td>
-                    <input type="text" name="birthday" id="birthday" size="45"/>
+                    <input type="text" name="birthday" size="45" value="<c:out value='${user.birthday}' />"/>
+                </td>
+                <td>
+                    <c:if test='${requestScope["birthdaymessage"] != null}'>
+                        <span class="birthdaymessage">${requestScope["birthdaymessage"]}</span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <th>Email:</th>
                 <td>
-                    <input type="text" name="email" id="email" size="45"/>
+                    <input type="text" name="email" size="15" value="<c:out value='${user.email}' />"/>
+                </td>
+                <td>
+                    <c:if test='${requestScope["emailmessage"] != null}'>
+                        <span class="emailmessage">${requestScope["emailmessage"]}</span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <th>Phone:</th>
                 <td>
-                    <input type="text" name="phone" id="phone" size="15"/>
+                    <input type="text" name="phone" size="15" value="<c:out value='${user.phone}' />"/>
+                </td>
+                <td>
+                    <c:if test='${requestScope["phonemessage"] != null}'>
+                        <span class="phonemessage">${requestScope["phonemessage"]}</span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <th>Image:</th>
                 <td>
-                    <input type="text" name="img" id="img" size="15"/>
+                    <input type="text" name="img" id="img" size="15" value="<c:out value='${user.urlOfImg}' />"/>
                 </td>
+                <td></td>
             </tr>
             <tr>
                 <th>UserName:</th>
                 <td>
-                    <input type="text" name="userName" id="userName" size="45"/>
+                    <input type="text" name="userName" id="userName" size="45" value="<c:out value='${user.userName}' />"/>
+                </td>
+                <td>
+                    <c:if test='${requestScope["userNamemessage"] != null}'>
+                        <span class="userNamemessage">${requestScope["userNamemessage"]}</span>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <th>Password:</th>
                 <td>
-                    <input type="text" name="Pass" id="Pass" size="45"/>
+                    <input type="text" name="Pass" id="Pass" size="45" value="<c:out value='${user.pass}' />"/>
+                </td>
+                <td>
+                    <c:if test='${requestScope["passmessage"] != null}'>
+                        <span class="passmessage">${requestScope["passmessage"]}</span>
+                    </c:if>
                 </td>
             </tr>
             <tr>

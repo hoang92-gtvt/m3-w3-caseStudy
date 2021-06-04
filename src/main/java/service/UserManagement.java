@@ -13,15 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserManagement {
-    private static final String INSERT_USERS_SQL = "INSERT INTO users" + "  (name, birthday, email, phone, userName, pass, role_id) VALUES " +
-            " (?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_USERS_SQL = "INSERT INTO users" + "  (name, birthday, email, phone,urlOfImage, userName, pass, role_id) VALUES " +
+            " (?, ?, ?, ?, ?, ?, ?,?)";
     private static final String SELECT_USER_BY_ID = "select * from users where id =?";
     private static final String SELECT_ALL_USERS = "select * from users";
-    private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
+    private static final String DELETE_USERS_SQL = "delete from users where id = ?";
     private static final String UPDATE_IN4_SQL = "update users set name = ?,birthday= ?,email=?,phone=?,urlOfImage=?,role_id=? where id = ?;";
     private static final String UPDATE_USERS_SQL = "update users set name = ?,birthday= ?, phone=?,urlOfImage=? where id = ?;";
     private static final String CHANGE_PASSWORD = "update users set password =? where id =?; ";
     private static final String SET_ROLE = "update users set role = ? where id =?";
+    private static final String INSERT_DELETED_USER_SQL = "INSERT INTO deletedusers" + "  (id,name,birthday,email,phone,urlOfImage,userName,pass,role_id) VALUES " +
+            " (?, ?, ?, ?, ?, ?, ?,?,?);";
+    private static final String SELECT_ALL_DELETED_USERS = "select * from deletedusers";
+    private static final String SELECT_DELETED_USER_BY_ID = "select * from deletedusers where id =?";
+    private static final String DELETE_DELETED_USER_SQL = "delete from deletedusers where id = ?";
     RoleManagement roleManagement = new RoleManagement();
     Connection connection = ConnectionJDBC.getConnect();
     public UserManagement() {
@@ -34,9 +39,10 @@ public class UserManagement {
             preparedStatement.setString(2, user.getBirthday());
             preparedStatement.setString(3, user.getEmail());
             preparedStatement.setString(4, user.getPhone());
-            preparedStatement.setString(5, user.getUserName());
-            preparedStatement.setString(6, user.getPass());
-            preparedStatement.setInt(7, user.getRole().getId());
+            preparedStatement.setString(5, user.getUrlOfImg());
+            preparedStatement.setString(6, user.getUserName());
+            preparedStatement.setString(7, user.getPass());
+            preparedStatement.setInt(8, user.getRole().getId());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         }
@@ -128,6 +134,68 @@ public class UserManagement {
         statement.setString(5, user.getUrlOfImg());
         statement.setInt(6,user.getRole().getId());
         statement.setInt(7,user.getId());
+        statement.executeUpdate();
+    }
+    public void deleteUser(User user) throws SQLException {
+        PreparedStatement statement1 = connection.prepareStatement(INSERT_DELETED_USER_SQL);
+        statement1.setInt(1, user.getId());
+        statement1.setString(2, user.getName());
+        statement1.setString(3, user.getBirthday());
+        statement1.setString(4, user.getEmail());
+        statement1.setString(5, user.getPhone());
+        statement1.setString(6, user.getUrlOfImg());
+        statement1.setString(7, user.getUserName());
+        statement1.setString(8, user.getPass());
+        statement1.setInt(9,user.getRole().getId());
+        System.out.println(statement1);
+        statement1.executeUpdate();
+        PreparedStatement statement2 = connection.prepareStatement(DELETE_USERS_SQL);
+        statement2.setInt(1, user.getId());
+        statement2.executeUpdate();
+    }
+    public List<User> selectAllDeletedUsers() throws SQLException{
+        List<User> users = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_DELETED_USERS);
+        System.out.println(preparedStatement);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            String birthday = resultSet.getString("birthday");
+            String email = resultSet.getString("email");
+            String phone = resultSet.getString("phone");
+            String urlOfImage = resultSet.getString("urlOfImage");
+            String userName = resultSet.getString("userName");
+            String Pass = resultSet.getString("pass");
+            int roleid = resultSet.getInt("role_id");
+            Role role = roleManagement.findRoleById(roleid);
+            users.add(new User(id,name,birthday,email,phone,urlOfImage,userName,Pass,role));
+        }
+        return users;
+    }
+    public User selecDeletedtUser(int id) throws SQLException{
+        User user = null;
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DELETED_USER_BY_ID);
+        preparedStatement.setInt(1, id);
+        System.out.println(preparedStatement);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            String name = resultSet.getString("name");
+            String birthday = resultSet.getString("birthday");
+            String email = resultSet.getString("email");
+            String phone = resultSet.getString("phone");
+            String urlOfImage = resultSet.getString("urlOfImage");
+            String userName = resultSet.getString("userName");
+            String Pass = resultSet.getString("pass");
+            int roleid = resultSet.getInt("role_id");
+            Role role = roleManagement.findRoleById(roleid);
+            user = new User(id,name,birthday,email,phone,urlOfImage,userName,Pass,role);
+        }
+        return user;
+    }
+    public void deletedeletedUser(User user) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(DELETE_DELETED_USER_SQL);
+        statement.setInt(1, user.getId());
         statement.executeUpdate();
     }
 }
