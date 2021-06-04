@@ -12,5 +12,12 @@
 </head>
 <body>
 <h1> Đây là trang index</h1>
+<button ><a href="/book"> BOOK</a></button>
+<button ><a href="/category"> CATEGORY</a></button>
+<button ><a href="/nxb"> NHA SUAT BAN</a></button>
+<button ><a href="/phieumuon"> PHIEU MUON</a></button>
+
+
+
 </body>
 </html>

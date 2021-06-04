@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<h1>FORM CREAT NEW BOOK</h1>
+<h1>FORM CREAT NEW PHIEU MUON</h1>
 <form class="mb-3" method="post">
     <div class="mb-3">
         <label  class="form-label">Tên sách</label>
