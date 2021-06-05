@@ -38,14 +38,11 @@
    <div class="mb-3">
     <label  class="form-label">Người mượn</label>
        <br>
-
+       <select name="user_id">
        <c:forEach items="${userList}" var="user">
-
-       <input  type="radio" name="user_id" value="${user.id}">
-       <label>${user.userName}</label>
-
+           <option value="${user.id}"> ${user.userName} </option>
        </c:forEach>
-
+        </select>
 
    </div>
 
@@ -67,10 +64,9 @@
     <div class="mb-3">
         <label  class="form-label">Lựa chọn sách mượn </label>
         <br>
-        <select name="books">
+        <select  name="books" multiple>
         <c:forEach items="${bookList}" var="book">
-            <option value="${book.id}">${book.name}</option>
-
+            <option  value="${book.id}">${book.name}</option>
         </c:forEach>
         </select>
 

@@ -35,7 +35,7 @@
        <c:forEach items="${statusBooks}" var="status">
        <input  type="radio" name="status" value="${status.id}">
        <label>${status.name}</label>
-       <br>
+
         </c:forEach>
 
 
@@ -45,13 +45,13 @@
     <div class="mb-3">
         <label  class="form-label">Nhà xuất bản sách </label>
         <br>
-
+        <select>
         <c:forEach items="${nxbList}" var="nxb">
-            <input  type="radio" name="nxb" value="${nxb.id}">
-            <label>${nxb.name}</label>
-            <br>
-        </c:forEach>
 
+            <option name="nxb" value="${nxb.id}">${nxb.name}</option>
+
+        </c:forEach>
+        </select>
 
 
     </div>
@@ -64,26 +64,18 @@
 
 
     <div class="mb-3">
-        <label  class="form-label">Nhà xuất bản sách </label>
+        <label  class="form-label">Loại sách </label>
         <br>
 
+        <select multiple>
         <c:forEach items="${categories}" var="category">
 
-            <input class="form-check-input" type="checkbox" name="category" value="${category.id}">
-            <label class="form-check-label" > ${category.name} </label>
-            <br>
+            <option name="category" value="${category.id}"> ${category.name}</option>
+
         </c:forEach>
-
-
-
+        </select>
     </div>
 
-
-
-<%--    <div class="mb-3">--%>
-<%--        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>--%>
-<%--        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>--%>
-<%--    </div>--%>
     <button type="submit">Create New Book</button>
 </form>
 
