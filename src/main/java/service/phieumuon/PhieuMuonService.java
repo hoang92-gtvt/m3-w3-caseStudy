@@ -68,6 +68,17 @@ public class PhieuMuonService implements IPhieumuonService{
 
     @Override
     public void delete(int index) throws SQLException {
+        connection.setAutoCommit(false);
+
+        PreparedStatement statement1 = connection.prepareStatement("delete from detailPM where PM_id= ?;");
+        statement1.setInt(1,index);
+        statement1.executeUpdate();
+
+        PreparedStatement statement2 = connection.prepareStatement("delete from phieumuon where id= ?;");
+        statement2.setInt(1,index);
+        statement2.executeUpdate();
+
+        connection.commit();
 
     }
 

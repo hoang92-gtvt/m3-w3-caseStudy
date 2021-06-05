@@ -44,9 +44,9 @@ public class ControllerPhieuMuon extends HttpServlet {
                 case "edit":
                     showFormEdit(request, response);
                     break;
-//
-//                case "delete":
-//                    showFormDelete(request,response);
+
+                case "delete":
+                    showFormDelete(request,response);
                 default:
                     showAllPhieuMuon(request, response);
                     break;
@@ -54,6 +54,11 @@ public class ControllerPhieuMuon extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private void showFormDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("phieumuons/delete.jsp");
+        dispatcher.forward(request,response);
+
     }
 
     private void showFormEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -120,8 +125,8 @@ public class ControllerPhieuMuon extends HttpServlet {
                     Edit(request, response);
                     break;
 
-//                case "delete":
-//                    delete(request,response);
+                case "delete":
+                    delete(request,response);
 
                 default:
                     showAllPhieuMuon(request, response);
@@ -135,14 +140,14 @@ public class ControllerPhieuMuon extends HttpServlet {
 
     }
 
-//    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException, IOException {
-//
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        bookService.delete(id);
-//        showAllBook(request, response);
-//
-//    }
-//
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, SQLException, IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        phieumuonService.delete(id);
+        showAllPhieuMuon(request, response);
+
+    }
+
     private void Edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 
         int id = Integer.parseInt(request.getParameter("id"));

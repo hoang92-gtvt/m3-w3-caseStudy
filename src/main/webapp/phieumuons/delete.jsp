@@ -8,14 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Xóa một Book</title>
+    <title>Xóa một phieu muon</title>
 </head>
 <body>
 <h1> Bạn muốn thực hiện tiếp</h1>
 <form method="post">
 
     <button type="submit">Yes</button>
-    <button ><a href="/book?action=home">No</a> </button>
+    <button ><a href="/phieumuon?action=home">No</a> </button>
 
 </form>
 </body>
