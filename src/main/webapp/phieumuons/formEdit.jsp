@@ -15,75 +15,64 @@
 </head>
 <body>
 
-<h1>FORM CREAT NEW PHIEU MUON</h1>
+<h1>CHỈNH SỬA THÔNG TIN PHIEU MUON</h1>
+
+<a href="/phieumuon?action=home">Quay về trang phiếu mượn</a>
+<br>
 <form class="mb-3" method="post">
     <div class="mb-3">
-        <label  class="form-label">Tên sách</label>
-        <input type="text" class="form-control" name="name" value="${oldBook.name}">
+        <label  class="form-label">Mã Phiếu</label>
+        <input type="text" class="form-control" name="identity" value ="${old.identity}">
     </div>
 
 
     <div class="mb-3">
-        <label  class="form-label">Mô tả</label>
-        <input type="text" class="form-control" name="description" value="${oldBook.description}">
+        <label  class="form-label">Ngày Mượn</label>
+        <input type="text" class="form-control" name="date" value ="${old.date}">
     </div>
 
     <div class="mb-3">
-        <label  class="form-label">Tình trạng sách</label>
+        <label  class="form-label">Ngày Đáo Hạn</label>
+        <input type="text" class="form-control" name="duedate" value ="${old.duedate}">
+    </div>
+
+    <div class="mb-3">
+        <label  class="form-label">Người mượn</label>
+        <br>
+        <select name="user_id">
+            <c:forEach items="${userList}" var="user">
+                <option value="${user.id}"> ${user.userName} </option>
+            </c:forEach>
+        </select>
+
+    </div>
+
+
+    <div class="mb-3">
+        <label  class="form-label">Tình trạng phiếu mượn </label>
         <br>
 
-        <c:forEach items="${statusBooks}" var="status">
-            <input  type="radio" name="status" value="${status.id}">
-            <label>${status.name}</label>
-            <br>
-        </c:forEach>
-
-
-    </div>
-
-
-    <div class="mb-3">
-        <label  class="form-label">Nhà xuất bản sách </label>
-        <br>
-
-        <c:forEach items="${nxbList}" var="nxb">
-            <input  type="radio" name="nxb" value="${nxb.id}">
-            <label>${nxb.name}</label>
-            <br>
-        </c:forEach>
-
-
-
-    </div>
-
-
-    <div class="mb-3">
-        <label  class="form-label">Đường dẫn link ảnh</label>
-        <input type="text" class="form-control" name="urlOfImage" value="${oldBook.urlOfImage}">
-    </div>
-
-
-    <div class="mb-3">
-        <label  class="form-label">Nhà xuất bản sách </label>
-        <br>
-
-        <c:forEach items="${categories}" var="category">
-
-            <input class="form-check-input" type="checkbox" name="category" value="${category.id}">
-            <label class="form-check-label" > ${category.name} </label>
-            <br>
+        <c:forEach items="${statusPMList}" var="status">
+        <input  type="radio" name="statusPM_id" value="${status.id}">
+        <label>${status.name}</label>
         </c:forEach>
 
 
 
     </div>
 
+    <div class="mb-3">
+        <label  class="form-label">Lựa chọn sách mượn </label>
+        <br>
+        <select  name="books" multiple>
+            <c:forEach items="${bookList}" var="book">
+                <option  value="${book.id}">${book.name}</option>
+            </c:forEach>
+        </select>
 
 
-    <%--    <div class="mb-3">--%>
-    <%--        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>--%>
-    <%--        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>--%>
-    <%--    </div>--%>
+    </div>
+
     <button type="submit">Uppdate</button>
 </form>
 

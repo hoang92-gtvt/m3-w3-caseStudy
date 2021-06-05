@@ -40,10 +40,10 @@ public class ControllerPhieuMuon extends HttpServlet {
                 case "create":
                     showFormCreate(request, response);
                     break;
-//
-//                case "edit":
-//                    showFormEdit(request, response);
-//                    break;
+
+                case "edit":
+                    showFormEdit(request, response);
+                    break;
 //
 //                case "delete":
 //                    showFormDelete(request,response);
@@ -54,6 +54,26 @@ public class ControllerPhieuMuon extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showFormEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        PhieuMuon phieuMuon = phieumuonService.getObjectById(id);
+
+        ArrayList<User> users = userService.findAll();
+        ArrayList<StatusPM> statusPMList = statusPMService.findAll();
+        ArrayList<Book> books = bookService.findAll();
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/phieumuons/formEdit.jsp");
+        request.setAttribute("old", phieuMuon);
+        request.setAttribute("userList", users);
+        request.setAttribute("statusPMList", statusPMList);
+        request.setAttribute("bookList", books);
+
+
+        dispatcher.forward(request,response);
+
     }
 
     private void showFormCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -96,10 +116,10 @@ public class ControllerPhieuMuon extends HttpServlet {
                     Create(request, response);
                     break;
 
-//                case "edit":
-//                    Edit(request, response);
-//                    break;
-//
+                case "edit":
+                    Edit(request, response);
+                    break;
+
 //                case "delete":
 //                    delete(request,response);
 
@@ -123,37 +143,36 @@ public class ControllerPhieuMuon extends HttpServlet {
 //
 //    }
 //
-//    private void Edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-//
-//        int id = Integer.parseInt(request.getParameter("id"));
-//
-//        String name = request.getParameter("name");
-//        String description = request.getParameter("description");
-//        int status_id = Integer.parseInt(request.getParameter("status"));
-//        int nxb_id = Integer.parseInt(request.getParameter("nxb"));
-//        String urlOfImage = request.getParameter("urlOfImage");
-//
-//        StatusBook status = new StatusBook(status_id);
-//        NXB nxb = new NXB(nxb_id);
-//
-//
-//        Book newBook = new Book(id,name,description,nxb,status, urlOfImage);
-//
-//
-//        String[] categoriesStr = request.getParameterValues("category");
-//
-//        int[] categoriesInt= new int[categoriesStr.length];
-//
-//        for (int i = 0; i < categoriesInt.length; i++) {
-//            categoriesInt[i]= Integer.parseInt(categoriesStr[i]);
-//        }
-//
-//        bookService.edit(id, newBook, categoriesInt);
-//
-//        showAllBook(request,response);
-//
-//
-//    }
+    private void Edit(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        String identity = request.getParameter("identity");
+        String date= request.getParameter("date");
+        String duedate= request.getParameter("duedate");
+
+        int user_id = Integer.parseInt(request.getParameter("user_id"));
+        int statusPM_id = Integer.parseInt(request.getParameter("statusPM_id"));
+
+
+        User user = userService.getObjectById(user_id);
+        StatusPM statusPM = statusPMService.getObjectById(statusPM_id);
+
+        PhieuMuon phieuMuon = new PhieuMuon(identity,date,duedate, user, statusPM);
+
+        String[] book_id = request.getParameterValues("books");
+
+        int[] book_int = new int[book_id.length];
+        for (int i = 0; i < book_int.length; i++) {
+            book_int [i]= Integer.parseInt(book_id[i]);
+
+        }
+        phieumuonService.edit(id,phieuMuon, book_int);
+
+        showAllPhieuMuon(request, response);
+
+
+    }
 
     private void Create(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 

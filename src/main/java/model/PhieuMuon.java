@@ -53,6 +53,13 @@ public class PhieuMuon {
         this.statusPM = statusPM;
     }
 
+    public PhieuMuon(int id, String identity, String date, String duedate) {
+        this.id = id;
+        this.identity = identity;
+        this.date = date;
+        this.duedate = duedate;
+    }
+
     public int getId() {
         return id;
     }

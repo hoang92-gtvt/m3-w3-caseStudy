@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 public class PhieuMuonService implements IPhieumuonService{
     public static final String insert_phieumuon = "insert into phieumuon(identity ,date, duedate, user_id, statusPM_id) value (?,?,?,?,?);";
-    public static final String insert_PhieuMuon = "insert into detailpm(PM_id,book_id)value (?,?); ";
+    public static final String insert_DetailPM = "insert into detailpm(PM_id,book_id)value (?,?); ";
+    public static final String Find_PHIEUMUON_BY_ID = "select * from phieumuon where id=?;";
     Connection connection = ConnectionJDBC.getConnect();
 
     IUserService userService = new UserService();
@@ -72,7 +73,20 @@ public class PhieuMuonService implements IPhieumuonService{
 
     @Override
     public PhieuMuon getObjectById(int id) throws SQLException {
-        return null;
+        PhieuMuon phieuMuon = null;
+        PreparedStatement statement = connection.prepareStatement(Find_PHIEUMUON_BY_ID);
+        statement.setInt(1, id);
+        ResultSet result = statement.executeQuery();
+        while(result.next()){
+
+            String  identity = result.getString("identity");
+            String  date = result.getString("date");
+            String  duedate = result.getString("duedate");
+
+            phieuMuon = new PhieuMuon (id,identity,date,duedate);
+        }
+
+        return phieuMuon;
     }
 
     @Override
@@ -95,7 +109,7 @@ public class PhieuMuonService implements IPhieumuonService{
             id = result.getInt(1);
         }
 
-        PreparedStatement statement1 = connection.prepareStatement(insert_PhieuMuon);
+        PreparedStatement statement1 = connection.prepareStatement(insert_DetailPM);
 
         for (int i = 0; i < book_id.length; i++) {
             statement1.setInt(1, id);
@@ -105,6 +119,37 @@ public class PhieuMuonService implements IPhieumuonService{
 
         connection.commit();
 
+
+    }
+
+    @Override
+    public void edit(int id, PhieuMuon phieumuon, int[] book_id) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        PreparedStatement statement = connection.prepareStatement("update phieumuon set identity =?, date =?, duedate=?, user_id=?, statusPM_id=? where id=?;");
+        statement.setString(1, phieumuon.getIdentity());
+        statement.setString(2, phieumuon.getDate());
+        statement.setString(3, phieumuon.getDuedate());
+        statement.setInt(4, phieumuon.getUser().getId());
+        statement.setInt(5, phieumuon.getStatusPM().getId());
+        statement.setInt(6, id);
+        statement.executeUpdate();
+
+
+        PreparedStatement statement2 = connection.prepareStatement("delete from detailpm where PM_id=?");
+        statement2.setInt(1,id);
+        statement2.executeUpdate();
+
+        PreparedStatement statement1 = connection.prepareStatement(insert_DetailPM );
+
+        for (int i = 0; i < book_id.length; i++) {
+            statement1.setInt(1, id);
+            statement1.setInt(2, book_id[i]);
+            statement1.executeUpdate();
+        }
+
+        connection.commit();
 
     }
 }
