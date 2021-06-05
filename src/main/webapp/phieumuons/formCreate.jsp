@@ -55,7 +55,7 @@
         <br>
 
 <%--        <c:forEach items="${statusPMList}" var="status">--%>
-            <input  type="radio" name="nxb" value="1">
+            <input  type="radio" name="statusPM_id" value="1">
             <label>Mới</label>
 
 <%--        </c:forEach>--%>

@@ -45,6 +45,14 @@ public class PhieuMuon {
         this.bookList = bookList;
     }
 
+    public PhieuMuon(String identity, String date, String duedate, User user, StatusPM statusPM) {
+        this.identity = identity;
+        this.date = date;
+        this.duedate = duedate;
+        this.user = user;
+        this.statusPM = statusPM;
+    }
+
     public int getId() {
         return id;
     }

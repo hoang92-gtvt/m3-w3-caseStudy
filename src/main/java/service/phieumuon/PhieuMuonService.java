@@ -13,6 +13,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class PhieuMuonService implements IPhieumuonService{
+    public static final String insert_phieumuon = "insert into phieumuon(identity ,date, duedate, user_id, statusPM_id) value (?,?,?,?,?);";
+    public static final String insert_PhieuMuon = "insert into detailpm(PM_id,book_id)value (?,?); ";
     Connection connection = ConnectionJDBC.getConnect();
 
     IUserService userService = new UserService();
@@ -71,5 +73,38 @@ public class PhieuMuonService implements IPhieumuonService{
     @Override
     public PhieuMuon getObjectById(int id) throws SQLException {
         return null;
+    }
+
+    @Override
+    public void create(PhieuMuon phieumuon, int[] book_id) throws SQLException {
+
+
+        connection.setAutoCommit(false);
+
+        PreparedStatement statement = connection.prepareStatement(insert_phieumuon, PreparedStatement.RETURN_GENERATED_KEYS );
+        statement.setString(1, phieumuon.getIdentity());
+        statement.setString(2, phieumuon.getDate());
+        statement.setString(3, phieumuon.getDuedate());
+        statement.setInt(4, phieumuon.getUser().getId());
+        statement.setInt(5, phieumuon.getStatusPM().getId());
+
+        statement.executeUpdate();
+        int id=0;
+        ResultSet result  = statement.getGeneratedKeys();
+        while(result.next()){
+            id = result.getInt(1);
+        }
+
+        PreparedStatement statement1 = connection.prepareStatement(insert_PhieuMuon);
+
+        for (int i = 0; i < book_id.length; i++) {
+            statement1.setInt(1, id);
+            statement1.setInt(2, book_id[i]);
+            statement1.executeUpdate();
+        }
+
+        connection.commit();
+
+
     }
 }
