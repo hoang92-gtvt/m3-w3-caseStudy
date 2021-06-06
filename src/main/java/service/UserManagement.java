@@ -20,8 +20,6 @@ public class UserManagement {
     private static final String DELETE_USERS_SQL = "delete from users where id = ?";
     private static final String UPDATE_IN4_SQL = "update users set name = ?,birthday= ?,email=?,phone=?,urlOfImage=?,role_id=? where id = ?;";
     private static final String UPDATE_USERS_SQL = "update users set name = ?,birthday= ?, phone=?,urlOfImage=? where id = ?;";
-    private static final String CHANGE_PASSWORD = "update users set password =? where id =?; ";
-    private static final String SET_ROLE = "update users set role = ? where id =?";
     private static final String INSERT_DELETED_USER_SQL = "INSERT INTO deletedusers" + "  (id,name,birthday,email,phone,urlOfImage,userName,pass,role_id) VALUES " +
             " (?, ?, ?, ?, ?, ?, ?,?,?);";
     private static final String SELECT_ALL_DELETED_USERS = "select * from deletedusers";

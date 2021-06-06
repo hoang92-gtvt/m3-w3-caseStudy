@@ -1,10 +1,7 @@
 package controller;
 
-import model.Role;
-import model.User;
-import service.RoleManagement;
-import service.UserManagement;
-import service.Validate;
+import model.*;
+import service.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -19,9 +16,17 @@ public class LibraryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserManagement userManagement;
     private RoleManagement roleManagement;
+    private CustomerManagement customerManagement;
+    private BookManagement bookManagement;
+    private TransactionStateManagement transactionStateManagement;
+    private DetailtransactionManagement detailtransactionManagement;
     public void init() {
         userManagement = new UserManagement();
         roleManagement = new RoleManagement();
+        customerManagement = new CustomerManagement();
+        bookManagement = new BookManagement();
+        transactionStateManagement= new TransactionStateManagement();
+        detailtransactionManagement = new DetailtransactionManagement();
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,6 +61,33 @@ public class LibraryServlet extends HttpServlet {
                 case "restore":
                     restoreDeletedUser(request,response);
                     break;
+                case "createcustomer":
+                    showNewCustomer(request,response);
+                    break;
+                case "updatein4customer":
+                    showEditCustomerForm(request,response);
+                    break;
+                case "userlist":
+                    showUserList(request,response);
+                    break;
+                case "setcustomer":
+                    setCustomer(request,response);
+                    break;
+                case "createticket":
+                    showNewTicket(request,response);
+                    break;
+                case "search":
+                    searchCustomer(request,response);
+                    break;
+                case "viewtickets":
+                    showAllTickets(request,response);
+                    break;
+                case "deletecustomer":
+                    DeleteCustomer(request,response);
+                    break;
+                case "updatestatus":
+                    ShowUpdateForm(request,response);
+                    break;
             }
         } catch (Exception ex) {
             throw new ServletException(ex);
@@ -85,10 +117,21 @@ public class LibraryServlet extends HttpServlet {
                 case "edit":
                     UpdateUser(request, response);
                     break;
-
+                case "createcustomer":
+                    CreateCustomer(request, response);
+                    break;
+                case "updatein4customer":
+                    UpdateCustomer(request,response);
+                    break;
+                case "createticket":
+                    CreateTicket(request,response);
+                    break;
+                case "updatestatus":
+                    UpdateTicket(request,response);
+                    break;
             }
         } catch (SQLException ex) {
-            throw new ServletException(ex);
+            ex.printStackTrace();
         }
     }
     private void showSignInForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -99,16 +142,18 @@ public class LibraryServlet extends HttpServlet {
         String userName = request.getParameter("username");
         String pass = request.getParameter("pass");
         User user = userManagement.getUserByUserNameandPass(userName,pass);
-        List<User> userList = userManagement.selectAllUsers();
         Validate validate = new Validate();
         if (user!=null && validate.isvalidaccount(userName) && validate.isvalidaccount(pass)){
             request.setAttribute("user", user);
-            request.setAttribute("listUser",userList);
             RequestDispatcher dispatcher;
             if(user.getRole().getId()==1){
+                List<User> userList = userManagement.selectAllUsers();
+                request.setAttribute("listUser",userList);
                 dispatcher = request.getRequestDispatcher("user/adminhomepage.jsp");
             }else if (user.getRole().getId()==2){
-                dispatcher = request.getRequestDispatcher("user/adminhomepage.jsp");
+                List<Customer> customerList = customerManagement.selectAllCustomers();
+                request.setAttribute("listCustomer",customerList);
+                dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
             }else {
                 dispatcher = request.getRequestDispatcher("user/homepage.jsp");
             }
@@ -324,5 +369,209 @@ public class LibraryServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/adminhomepage.jsp");
         dispatcher.forward(request, response);
     }
+    private void showNewCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/createcustomer.jsp");
+        dispatcher.forward(request, response);
+    }
+    private void CreateCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        String name = request.getParameter("name");
+        String birthday = request.getParameter("birthday");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String img = request.getParameter("img");
+        User user = new User(name,birthday,email,phone,img);
+        Validate validate = new Validate();
+        if (name.equals("")||!validate.isvaliddate(birthday)||!validate.isvalidemail(email)||!validate.isvalidphone(phone)){
+            if (name.equals("")){
+                request.setAttribute("namemessage", "Incorrect format");
+            }
+            if (!validate.isvaliddate(birthday)){
+                request.setAttribute("birthdaymessage", "Incorrect format");
+            }
+            if (!validate.isvalidemail(email)){
+                request.setAttribute("emailmessage", "Incorrect format");
+            }
+            if (!validate.isvalidphone(phone)){
+                request.setAttribute("phonemessage", "Incorrect format");
+            }
+            RequestDispatcher dispatcher = request.getRequestDispatcher("user/createcustomer.jsp");
+            request.setAttribute("user", user);
+            dispatcher.forward(request, response);
+        }else {
+            RandomString randomString = new RandomString();
+            String identity = randomString.getAlphaNumericString();
+            customerManagement.insertCustomer(user,identity);
+            List<Customer> customerList = customerManagement.selectAllCustomers();
+            request.setAttribute("listCustomer",customerList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+    private void showEditCustomerForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userManagement.selectUser(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianupdatein4.jsp");
+        request.setAttribute("user", user);
+        dispatcher.forward(request, response);
+    }
+    private void UpdateCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String birth = request.getParameter("birthday");
+        String phone = request.getParameter("phone");
+        String img = request.getParameter("urlOfImg");
+        User user = userManagement.selectUser(id);
+        Validate validate = new Validate();
+        if (name.equals("")||!validate.isvaliddate(birth)||!validate.isvalidphone(phone)){
+            User falseuser = new User(id,name,birth,user.getEmail(),phone,img,user.getRole());
+            if (name.equals("")){
+                request.setAttribute("namemessage", "Incorrect format");
+            }
+            if (!validate.isvaliddate(birth)){
+                request.setAttribute("birthdaymessage", "Incorrect format");
+            }
+            if (!validate.isvalidphone(phone)){
+                request.setAttribute("phonemessage", "Incorrect format");
+            }
+            RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianupdatein4.jsp");
+            request.setAttribute("user", falseuser);
+            dispatcher.forward(request, response);
+        }else {
+            userManagement.updateUser(id,name,birth,phone,img);
+            User trueuser = userManagement.selectUser(id);
+            request.setAttribute("user", trueuser);
+            request.setAttribute("message", "Information has been updated");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianupdatein4.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+    private void showUserList(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        List<User> userList = userManagement.selectAllUsers();
+        List<Customer> customerList = customerManagement.selectAllCustomers();
+        for (User user: userList) {
+            for (Customer customer: customerList) {
+                if (user.getId()==customer.getUser().getId()){
+                    user.setCustomer(customer);
+                }
+            }
+        }
+        request.setAttribute("listUser",userList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/listuser.jsp");
+        dispatcher.forward(request, response);
+    }
+    private void setCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userManagement.selectUser(id);
+        RandomString randomString = new RandomString();
+        String identity = randomString.getAlphaNumericString();
+        customerManagement.setCustomer(user,identity);
+        showUserList(request,response);
+    }
+    private void showNewTicket(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
+        List<Book> bookList = bookManagement.selectAvailableBooks();
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/createticket.jsp");
+        request.setAttribute("books",bookList);
+        dispatcher.forward(request, response);
+    }
+    private void CreateTicket(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
+        int id = Integer.parseInt(request.getParameter("id"));
+        String brrwdate = request.getParameter("brrwdate");
+        String duedate = request.getParameter("duedate");
+        String[] booksstr = request.getParameterValues("books");
+        int[] books = new int[booksstr.length];
+        for (int i = 0; i < booksstr.length; i++) {
+            books[i] = Integer.parseInt(booksstr[i]);
+        }
+        Detailtransaction detailtransaction = new Detailtransaction(id, customerManagement.selectCustomer(id), brrwdate,duedate,transactionStateManagement.findStatusById(1));
+        Validate validate = new Validate();
+        if (!validate.isvaliddate(brrwdate)||!validate.isvaliddate(duedate)){
+            if (!validate.isvaliddate(brrwdate)){
+                request.setAttribute("brrwdatemessage", "Incorrect format");
+            }
+            if (!validate.isvaliddate(duedate)){
+                request.setAttribute("duedatemessage", "Incorrect format");
+            }
+            List<Book> bookList = bookManagement.selectAvailableBooks();
+            RequestDispatcher dispatcher = request.getRequestDispatcher("user/createticket.jsp");
+
+            request.setAttribute("books",bookList);
+            dispatcher.forward(request, response);
+        }else {
+            detailtransactionManagement.createBorrowTicket(detailtransaction,books);
+            List<Customer> customerList = customerManagement.selectAllCustomers();
+            request.setAttribute("listCustomer",customerList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+    private void searchCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{
+        String search = request.getParameter("identity");
+        List<Customer> customerList = customerManagement.selectbyIdentity(search);
+        request.setAttribute("listCustomer", customerList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/searchcustomer.jsp");
+        dispatcher.forward(request, response);
+    }
+    private void showAllTickets(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        List<Detailtransaction> detailtransactionList = detailtransactionManagement.getTicketsByCustomer(id);
+        request.setAttribute("tickets",detailtransactionList);
+        for (Detailtransaction ticket:detailtransactionList) {
+            List<Book> fakebooklist = bookManagement.getFakeBook(ticket.getId());
+            ticket.setBookList(fakebooklist);
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/ticketlist.jsp");
+        dispatcher.forward(request, response);
+    }
+    private void DeleteCustomer(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException{
+        int id = Integer.parseInt(request.getParameter("id"));
+        List<Detailtransaction> detailtransactionList = detailtransactionManagement.getTicketsByCustomer(id);
+        if (detailtransactionList.size()==0){
+            detailtransactionManagement.deleteCustomer(id);
+            List<Customer> customerList = customerManagement.selectAllCustomers();
+            request.setAttribute("listCustomer",customerList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
+            dispatcher.forward(request, response);
+        }else {
+            for (Detailtransaction detailtransaction: detailtransactionList) {
+                if (detailtransaction.getTransactionStatus().getId()!=1&&detailtransaction.getTransactionStatus().getId()!=2){
+                    detailtransactionManagement.deleteCustomer(id);
+                    List<Customer> customerList = customerManagement.selectAllCustomers();
+                    request.setAttribute("listCustomer",customerList);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
+                    dispatcher.forward(request, response);
+                }else {
+                    request.setAttribute("deletemessage", "There are tickets in use");
+                    List<Customer> customerList = customerManagement.selectAllCustomers();
+                    request.setAttribute("listCustomer",customerList);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
+                    dispatcher.forward(request, response);
+                }
+            }
+        }
+    }
+    private void ShowUpdateForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Detailtransaction detailtransaction = detailtransactionManagement.getTicketById(id);
+        List<TransactionStatus> transactionStatuses = transactionStateManagement.findAll();
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/updateticket.jsp");
+        request.setAttribute("ticket", detailtransaction);
+        request.setAttribute("statuses", transactionStatuses);
+        dispatcher.forward(request, response);
+    }
+    private void UpdateTicket(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException{
+        int id = Integer.parseInt(request.getParameter("id"));
+        int statusid = Integer.parseInt(request.getParameter("statuslist"));
+        detailtransactionManagement.updateTicket(statusid,id);
+        Detailtransaction detailtransaction = detailtransactionManagement.getTicketById(id);
+        List<Detailtransaction> detailtransactionList = detailtransactionManagement.getTicketsByCustomer(detailtransaction.getCustomer().getId());
+        request.setAttribute("tickets",detailtransactionList);
+        for (Detailtransaction ticket:detailtransactionList) {
+            List<Book> fakebooklist = bookManagement.getFakeBook(ticket.getId());
+            ticket.setBookList(fakebooklist);
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/ticketlist.jsp");
+        dispatcher.forward(request, response);
+    }
 
 }
+

@@ -10,6 +10,7 @@ public class User {
     private String userName;
     private String pass;
     private Role role;
+    private Customer customer;
     public User(int id, String name, String birthday, String email, String phone, String urlOfImg, String userName, String pass, Role role) {
         this.id = id;
         this.name = name;
@@ -29,6 +30,15 @@ public class User {
         this.phone = phone;
         this.urlOfImg = urlOfImg;
         this.role = role;
+    }
+
+    public User(int id, String name, String birthday, String email, String phone, String urlOfImg) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.email = email;
+        this.phone = phone;
+        this.urlOfImg = urlOfImg;
     }
 
     public User(String name, String birthday, String email, String phone, String urlOfImg, String userName, String pass, Role role) {
@@ -52,6 +62,19 @@ public class User {
         this.role = role;
     }
 
+    public User(String name, String birthday, String email, String phone, String urlOfImg) {
+        this.name = name;
+        this.birthday = birthday;
+        this.email = email;
+        this.phone = phone;
+        this.urlOfImg = urlOfImg;
+    }
+    public Customer getCustomer() {
+        return customer;
+    }
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
     public int getId() {
         return id;
     }
