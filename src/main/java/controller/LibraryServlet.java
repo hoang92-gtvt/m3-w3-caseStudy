@@ -524,6 +524,7 @@ public class LibraryServlet extends HttpServlet {
     }
     private void DeleteCustomer(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException{
         int id = Integer.parseInt(request.getParameter("id"));
+        int count=0;
         List<Detailtransaction> detailtransactionList = detailtransactionManagement.getTicketsByCustomer(id);
         if (detailtransactionList.size()==0){
             detailtransactionManagement.deleteCustomer(id);
@@ -533,19 +534,22 @@ public class LibraryServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }else {
             for (Detailtransaction detailtransaction: detailtransactionList) {
-                if (detailtransaction.getTransactionStatus().getId()!=1&&detailtransaction.getTransactionStatus().getId()!=2){
-                    detailtransactionManagement.deleteCustomer(id);
-                    List<Customer> customerList = customerManagement.selectAllCustomers();
-                    request.setAttribute("listCustomer",customerList);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
-                    dispatcher.forward(request, response);
-                }else {
+                if (detailtransaction.getTransactionStatus().getId()==1||detailtransaction.getTransactionStatus().getId()==2){
                     request.setAttribute("deletemessage", "There are tickets in use");
                     List<Customer> customerList = customerManagement.selectAllCustomers();
                     request.setAttribute("listCustomer",customerList);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
                     dispatcher.forward(request, response);
+                }else {
+                    count = count+1;
                 }
+            }
+            if (count==detailtransactionList.size()){
+                detailtransactionManagement.deleteCustomer(id);
+                List<Customer> customerList = customerManagement.selectAllCustomers();
+                request.setAttribute("listCustomer",customerList);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("user/librarianhomepage.jsp");
+                dispatcher.forward(request, response);
             }
         }
     }

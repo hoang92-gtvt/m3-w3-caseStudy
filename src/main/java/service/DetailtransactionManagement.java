@@ -73,6 +73,7 @@ public class DetailtransactionManagement {
             List<Book> bookList = bookManagement.getBookByTicket(ticket_id);
             Customer customer = customerManagement.selectCustomer(id);
             detailtransactions.add(new Detailtransaction(ticket_id,customer,brrwdate,duedate,transactionStatus,bookList));
+            System.out.println(status_id);
         }
         return detailtransactions;
     }
